@@ -43,7 +43,12 @@ THIRD_PARTY_APPS = [
     'celery',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = [
+    'apps.users',
+    'apps.restaurants',
+    'apps.menu',
+    'apps.orders',
+]
 
 INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -131,6 +136,9 @@ LANGUAGE_CODE = 'es'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+
+AUTH_USER_MODEL = 'users.User'
 
 
 CORS_ORIGIN_WHITELIST = [
