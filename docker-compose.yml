@@ -1,0 +1,47 @@
+services:
+  django:
+    build:
+      context: .
+    container_name: restaurant-ordering
+    env_file:
+      - .env
+    volumes:
+      - .:/restaurant-ordering
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    networks:
+      - restaurant-ordering-network
+    command: python manage.py runserver 0.0.0.0:8000
+
+  database:
+    image: postgres:17.3
+    container_name: restaurant-ordering-postgres
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - restaurant-ordering-network
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7.4
+    container_name: restaurant-ordering-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - restaurant-ordering-network
+
+networks:
+  restaurant-ordering-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
