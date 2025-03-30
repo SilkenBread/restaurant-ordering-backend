@@ -4,19 +4,6 @@ from apps.core.filters.base_filters import BaseFilter
 from ..models import Restaurant
 
 class RestaurantFilter(BaseFilter):
-    """
-    Filtros avanzados para restaurantes.
-    
-    Filtros disponibles:
-    - name: Búsqueda por nombre (contiene, case insensitive)
-    - address: Búsqueda por dirección (contiene)
-    - rating_min: Filtra por rating mínimo
-    - rating_max: Filtra por rating máximo
-    - status: Filtra por estado (open/closed/maintenance)
-    - category: Filtra por categoría (exacto)
-    - is_active: Filtra por estado activo/inactivo
-    - location: Filtra por proximidad a coordenadas (lat,lon,distance)
-    """
     name = django_filters.CharFilter(lookup_expr='icontains')
     address = django_filters.CharFilter(lookup_expr='icontains')
     rating_min = django_filters.NumberFilter(field_name='rating', lookup_expr='gte')
@@ -32,13 +19,8 @@ class RestaurantFilter(BaseFilter):
         ]
     
     def filter_by_location(self, queryset, name, value):
-        """
-        Filtra restaurantes por proximidad a unas coordenadas.
-        Formato esperado: lat,lon,distance (distance en km)
-        """
         try:
             lat, lon, distance = map(float, value.split(','))
-            # Usamos fórmula haversine para calcular distancia
             return queryset.annotate(
                 distance=models.ExpressionWrapper(
                     models.Func(
