@@ -37,6 +37,54 @@ services:
     command: redis-server --appendonly yes
     networks:
       - restaurant-ordering-network
+    
+  celery_worker:
+    build:
+      context: .
+    container_name: restaurant-ordering-celery
+    env_file:
+      - .env
+    command: celery -A config worker --loglevel=info
+    depends_on:
+      - redis
+      - django
+    environment:
+      - TZ=America/Bogota
+    networks:
+      - restaurant-ordering-network
+
+  celery_beat:
+    build:
+      context: .
+    container_name: restaurant-ordering-celery-beat
+    env_file:
+      - .env
+    command: celery -A config beat --loglevel=info
+    depends_on:
+      - redis
+      - django
+      - celery_worker
+    environment:
+      - TZ=America/Bogota
+    networks:
+      - restaurant-ordering-network
+
+  flower:
+    build:
+      context: .
+    container_name: restaurant-ordering-flower
+    env_file:
+      - .env
+    command: celery -A config flower --port=5555
+    depends_on:
+      - redis
+      - celery_worker
+    ports:
+      - "5555:5555"
+    environment:
+      - TZ=America/Bogota
+    networks:
+      - restaurant-ordering-network
 
 networks:
   restaurant-ordering-network:

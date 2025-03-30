@@ -55,6 +55,7 @@ LOCAL_APPS = [
     'apps.restaurants',
     'apps.menu',
     'apps.orders',
+    'apps.reports'
 ]
 
 INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + LOCAL_APPS 
@@ -194,3 +195,10 @@ CACHES = {
 }
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# Celery
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
