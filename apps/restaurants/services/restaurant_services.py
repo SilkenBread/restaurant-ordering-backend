@@ -1,13 +1,13 @@
+from rest_framework.exceptions import NotFound
 from typing import Optional, Dict, Any, Union
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from apps.core.exceptions import ValidationException
-from apps.restaurants.models import Restaurant
-from apps.restaurants.serializers.restaurant_serializers import RestaurantCreateDTOSerializer, RestaurantUpdateDTOSerializer
+from ..models import Restaurant
+from ..serializers.restaurant_serializers import RestaurantCreateDTOSerializer, RestaurantDTOSerializer, RestaurantUpdateDTOSerializer
 from ..dtos.restaurant_dto import RestaurantCreateDTO, RestaurantDTO, RestaurantUpdateDTO
 from ..repositories.restaurant_repository import RestaurantRepository
 from ..filters.restaurant_filters import RestaurantFilter
-from rest_framework.exceptions import NotFound
 
 class RestaurantService:
     def __init__(self, repository: RestaurantRepository = None):
@@ -28,48 +28,30 @@ class RestaurantService:
 
         return filtered_queryset.order_by('-created_at') 
 
-    def create_restaurant(self, restaurant_data: RestaurantCreateDTO) -> RestaurantCreateDTO:
+    def create_restaurant(self, restaurant_data: RestaurantCreateDTO) -> Dict:
         serializer = RestaurantCreateDTOSerializer(data=restaurant_data.__dict__)
-        if not serializer.is_valid():
-            # Extraer los mensajes de error limpios
-            errors = {}
-            for field, error_list in serializer.errors.items():
-                errors[field] = [str(err) for err in error_list]
-            
-            raise ValidationException(
-                detail=_("Datos de entrada inválidos"),
-                errors=errors
-            )
+        serializer.is_valid(raise_exception=True)
         
         restaurant = self._to_model(restaurant_data)
         created = self.repository.create(restaurant)
-        return self._to_dto(created)
         
-    def update_restaurant(self, restaurant_id: int, 
-                        restaurant_data: RestaurantUpdateDTO) -> RestaurantUpdateDTO:
+        return RestaurantDTOSerializer(self._to_dto(created)).data
+        
+    def update_restaurant(self, restaurant_id: int, restaurant_data: RestaurantUpdateDTO) -> Dict:
         existing = self.repository.get_by_id(restaurant_id)
         if not existing:
             raise NotFound(_("Restaurante no encontrado"))
         
         serializer = RestaurantUpdateDTOSerializer(data=restaurant_data.__dict__)
-        if not serializer.is_valid():
-            # Extraer los mensajes de error limpios
-            errors = {}
-            for field, error_list in serializer.errors.items():
-                errors[field] = [str(err) for err in error_list]
-            
-            raise ValidationException(
-                detail=_("Datos de entrada inválidos"),
-                errors=errors
-            )
+        serializer.is_valid(raise_exception=True)
         
-        # Actualizar solo los campos proporcionados
+        # Actualizar campos
         for field, value in restaurant_data.__dict__.items():
             if value is not None:
                 setattr(existing, field, value)
         
         updated = self.repository.update(existing)
-        return self._to_dto(updated)
+        return RestaurantDTOSerializer(self._to_dto(updated)).data
     
     def delete_restaurant(self, restaurant_id: int) -> bool:
         return self.repository.delete(restaurant_id)

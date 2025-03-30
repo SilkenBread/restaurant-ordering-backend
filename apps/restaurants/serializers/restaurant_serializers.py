@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_serializer
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 
 @extend_schema_serializer(
     component_name="Restaurant",
@@ -16,8 +17,16 @@ class RestaurantDTOSerializer(serializers.Serializer):
     latitude = serializers.FloatField()
     longitude = serializers.FloatField()
     is_active = serializers.BooleanField(default=True)
-    created_at = serializers.DateTimeField(required=False)
-    updated_at = serializers.DateTimeField(required=False)
+    created_at = serializers.DateTimeField(
+        required=False,
+        format="%Y-%m-%d %H:%M:%S",
+        input_formats=["%Y-%m-%d %H:%M:%S", "iso-8601"]
+    )
+    updated_at = serializers.DateTimeField(
+        required=False,
+        format="%Y-%m-%d %H:%M:%S",
+        input_formats=["%Y-%m-%d %H:%M:%S", "iso-8601"]
+    )
 
     def validate_name(self, value):
         """Validación del nombre"""
@@ -30,16 +39,6 @@ class RestaurantDTOSerializer(serializers.Serializer):
         if value < 0 or value > 5:
             raise serializers.ValidationError(_("El rating debe estar entre 0.0 y 5.0"))
         return value
-
-@extend_schema_serializer(
-    component_name="RestaurantList",
-)
-class RestaurantListDTOSerializer(serializers.Serializer):
-    items = RestaurantDTOSerializer(many=True)
-    total = serializers.IntegerField()
-    page = serializers.IntegerField()
-    page_size = serializers.IntegerField()
-
 
 class RestaurantCreateDTOSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255)

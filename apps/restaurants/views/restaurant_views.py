@@ -2,17 +2,19 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.exceptions import NotFound
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiExample
-from django.utils.translation import gettext_lazy as _
-from apps.core.exceptions import ValidationException
-from apps.restaurants.dtos.restaurant_dto import RestaurantCreateDTO, RestaurantDTO, RestaurantUpdateDTO
-from apps.restaurants.repositories.restaurant_repository import RestaurantRepository
-from apps.restaurants.serializers.restaurant_serializers import RestaurantDTOSerializer, RestaurantListDTOSerializer
-from ..services.restaurant_services import RestaurantService
 from rest_framework.pagination import PageNumberPagination
+from django.utils.translation import gettext_lazy as _
+
+from ..dtos.restaurant_dto import RestaurantCreateDTO, RestaurantUpdateDTO
+from ..serializers.restaurant_serializers import RestaurantDTOSerializer
+
+from apps.core.decorators import permission_required
+from apps.core.exceptions import ValidationException
+from ..dependencies import get_restaurant_service
+
+service = get_restaurant_service()
 
 class RestaurantListCreateAPIView(APIView):
-    service = RestaurantService(repository=RestaurantRepository())
     pagination_class = PageNumberPagination
 
     @property
@@ -42,11 +44,12 @@ class RestaurantListCreateAPIView(APIView):
             'page_size': self.paginator.page_size,
         })
     
+    @permission_required(['restaurants.view_restaurant'])
     def get(self, request, restaurant_id=None):
         try:
             # Si se solicita un restaurante específico
             if restaurant_id:
-                restaurant = self.service.get_restaurant(restaurant_id)
+                restaurant = service.get_restaurant(restaurant_id)
                 serializer = RestaurantDTOSerializer(restaurant)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             
@@ -58,18 +61,18 @@ class RestaurantListCreateAPIView(APIView):
                 filters.pop('page_size')
             
             # Obtener queryset filtrado
-            queryset = self.service.list_restaurants(filters=filters)
+            queryset = service.list_restaurants(filters=filters)
             
             # Aplicar paginación
             page = self.paginate_queryset(queryset)
             if page is not None:
                 # Convertir a DTOs y serializar
-                dto_items = [self.service._to_dto(item) for item in page]
+                dto_items = [service._to_dto(item) for item in page]
                 serializer = RestaurantDTOSerializer(dto_items, many=True)
                 return self.get_paginated_response(serializer.data)
             
             # Si la paginación está desactivada (poco probable con tu configuración)
-            dto_items = [self.service._to_dto(item) for item in queryset]
+            dto_items = [service._to_dto(item) for item in queryset]
             serializer = RestaurantDTOSerializer(dto_items, many=True)
             return Response({
                 'items': serializer.data,
@@ -83,50 +86,12 @@ class RestaurantListCreateAPIView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
+    @permission_required(['restaurants.add_restaurant'])
     def post(self, request):
         try:
             restaurant_data = RestaurantCreateDTO(**request.data)
-            created = self.service.create_restaurant(restaurant_data)
-            return Response(self.service._to_dto(created).__dict__, status=status.HTTP_201_CREATED)
-        except ValidationException as e:
-            return Response({
-                "status": "error",
-                "code": e.default_code,
-                "message": e.detail,
-                "errors": e.errors
-            }, status=e.status_code)
-        except Exception as e:
-            return Response({
-                "status": "error",
-                "code": "server_error",
-                "message": "Error interno del servidor",
-                "errors": {}
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-class RestaurantRetrieveUpdateDestroyAPIView(APIView):
-    service = RestaurantService(repository=RestaurantRepository())
-
-    def get(self, request, restaurant_id):
-        try:
-            restaurant = self.service.get_restaurant(restaurant_id)
-            serializer = RestaurantDTOSerializer(restaurant)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except NotFound as e:
-            return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def put(self, request, restaurant_id):
-        try:
-            restaurant_data = RestaurantUpdateDTO(**request.data)
-            updated = self.service.update_restaurant(restaurant_id, restaurant_data)
-            return Response(self.service._to_dto(updated).__dict__, status=status.HTTP_200_OK)
-        except NotFound as e:
-            return Response({
-                "status": "error",
-                "code": "not_found",
-                "message": str(e)
-            }, status=status.HTTP_404_NOT_FOUND)
+            response_data = service.create_restaurant(restaurant_data)
+            return Response(response_data, status=status.HTTP_201_CREATED)
         except ValidationException as e:
             return Response({
                 "status": "error",
@@ -134,16 +99,36 @@ class RestaurantRetrieveUpdateDestroyAPIView(APIView):
                 "message": str(e.detail),
                 "errors": e.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
+class RestaurantRetrieveUpdateDestroyAPIView(APIView):
+    @permission_required(['restaurants.view_restaurant'])
+    def get(self, request, restaurant_id):
+        try:
+            restaurant = service.get_restaurant(restaurant_id)
+            serializer = RestaurantDTOSerializer(restaurant)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except NotFound as e:
+            return Response({'error': str(e)}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @permission_required(['restaurants.change_restaurant'])
+    def put(self, request, restaurant_id):
+        try:
+            restaurant_data = RestaurantUpdateDTO(**request.data)
+            response_data = service.update_restaurant(restaurant_id, restaurant_data)
+            return Response(response_data, status=status.HTTP_200_OK)
+        except NotFound as e:
             return Response({
                 "status": "error",
-                "code": "server_error",
+                "code": "not_found",
                 "message": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            }, status=status.HTTP_404_NOT_FOUND)
     
+    @permission_required(['restaurants.delete_restaurant'])
     def delete(self, request, restaurant_id):
         try:
-            deleted = self.service.delete_restaurant(restaurant_id)
+            deleted = service.delete_restaurant(restaurant_id)
             if deleted:
                 return Response(status=status.HTTP_204_NO_CONTENT)
             return Response({'error': _("Restaurante no encontrado")}, 

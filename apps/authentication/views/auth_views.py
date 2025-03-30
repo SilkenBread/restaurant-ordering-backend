@@ -7,6 +7,7 @@ from ..dtos.password_change_dto import PasswordChangeDTO
 from ..serializers.token_serializer import TokenSerializer
 from ..services.auth_service import AuthService
 from apps.core.exceptions import UnauthorizedException, ValidationException
+from django.utils.translation import gettext_lazy as _
 
 class LoginAPIView(APIView):
     """"
@@ -58,12 +59,27 @@ class PasswordChangeAPIView(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
             
         except ValidationException as e:
-            return Response(
-                e.detail,
-                status=e.status_code
-            )   
+            return Response({
+                "status": "error",
+                "code": "validation_error",
+                "message": e.detail,
+                "errors": e.errors
+            }, status=e.status_code)
+            
         except UnauthorizedException as e:
-            return Response(
-                {'detail': str(e)},
-                status=e.status_code
-            )
+            return Response({
+                "status": "error",
+                "code": "unauthorized",
+                "message": str(e),
+                "errors": {
+                    "old_password": [str(e)]
+                }
+            }, status=e.status_code)
+            
+        except Exception as e:
+            return Response({
+                "status": "error",
+                "code": "server_error",
+                "message": _("Error interno del servidor"),
+                "errors": {}
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

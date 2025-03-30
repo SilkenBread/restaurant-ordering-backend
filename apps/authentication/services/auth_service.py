@@ -48,7 +48,7 @@ class AuthService:
             return False
         
     def change_password(self, user, password_dto: PasswordChangeDTO) -> None:
-        """Cambia la contraseña de un usuario"""
+        """Cambia la contraseña de un usuario con mejor manejo de errores"""
         try:
             password_dto.validate(user=user)
             
@@ -62,8 +62,11 @@ class AuthService:
             cache.delete_pattern(f'user_email_{user.email}')
             cache.delete_pattern(f'user_{user.id}')
             
-        except ValidationError as e:
+        except ValidationException as e:
+            raise e
+        except Exception as e:
             raise ValidationException(
-                detail=_("Error en validación de contraseña"),
-                errors={'new_password': e.messages if hasattr(e, 'messages') else [str(e)]}
+                detail=_("Error al cambiar la contraseña"),
+                errors={'non_field_errors': [str(e)]}
             )
+

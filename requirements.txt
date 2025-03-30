@@ -19,5 +19,8 @@ django-redis==5.4.0
 # Celery
 celery==5.4.0
 flower==2.0.1
-# Dev
+# Testing
 ipython==8.32.0
+pytest==8.3.5
+pytest-django==4.10.0
+pytest-mock==3.14.0

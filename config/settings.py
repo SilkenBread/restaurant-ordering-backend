@@ -57,8 +57,7 @@ LOCAL_APPS = [
     'apps.orders',
 ]
 
-INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
+INSTALLED_APPS = BASE_APPS + THIRD_PARTY_APPS + LOCAL_APPS 
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -193,3 +192,5 @@ CACHES = {
         }
     }
 }
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
