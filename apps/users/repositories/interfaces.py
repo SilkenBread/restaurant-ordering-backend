@@ -26,7 +26,3 @@ class IUserRepository(ABC):
     @abstractmethod
     def filter(self, filters: dict) -> List[User]:
         pass
-    
-    @abstractmethod
-    def update_password(self, user: User, new_password: str) -> User:
-        pass

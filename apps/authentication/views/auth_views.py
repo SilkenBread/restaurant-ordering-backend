@@ -1,18 +1,17 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from rest_framework.permissions import IsAuthenticated
 from ..dtos.login_dto import LoginDTO
 from ..dtos.password_change_dto import PasswordChangeDTO
-from ..serializers.password_serializer import PasswordChangeSerializer
-from ..serializers.login_serializers import LoginSerializer
 from ..serializers.token_serializer import TokenSerializer
 from ..services.auth_service import AuthService
 from apps.core.exceptions import UnauthorizedException, ValidationException
 
-
 class LoginAPIView(APIView):
+    """"
+    API para iniciar sesión"
+    """
     authentication_classes = []
     permission_classes = []
 
@@ -43,11 +42,11 @@ class LogoutAPIView(APIView):
         success = AuthService().logout(refresh_token)
         if not success:
             return Response(
-            {'error': 'Invalid refresh token'},
+            {'error': 'Token inválido o ya revocado'},
             status=status.HTTP_400_BAD_REQUEST
         )
         return Response(
-            {'message': 'Successfully logged out'},
+            {'message': 'Cierrado de sesión exitoso'},
             status=status.HTTP_200_OK
         )
         
@@ -57,13 +56,14 @@ class PasswordChangeAPIView(APIView):
             password_dto = PasswordChangeDTO(**request.data)
             AuthService().change_password(request.user, password_dto)
             return Response(status=status.HTTP_204_NO_CONTENT)
+            
         except ValidationException as e:
             return Response(
-                {'error': str(e), 'details': e.details},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+                e.detail,
+                status=e.status_code
+            )   
         except UnauthorizedException as e:
             return Response(
-                {'error': str(e)},
-                status=status.HTTP_401_UNAUTHORIZED
+                {'detail': str(e)},
+                status=e.status_code
             )

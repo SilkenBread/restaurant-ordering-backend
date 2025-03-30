@@ -87,12 +87,3 @@ class UserService:
         qs = User.objects.filter(is_active=True)
         user_filter = UserFilter(filters, queryset=qs)
         return user_filter.qs
-
-    def change_password(self, user: User, password_dto: PasswordChangeDTO) -> Tuple[Optional[User], dict]:
-        """Cambia la contraseña del usuario"""
-        errors = password_dto.validate(user)
-        if errors:
-            return None, errors
-            
-        updated_user = self.repository.update_password(user, password_dto.new_password)
-        return updated_user, {}

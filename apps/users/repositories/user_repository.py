@@ -42,9 +42,3 @@ class UserRepository(IUserRepository):
             queryset = queryset.filter(**filters)
         
         return queryset.all()
-    
-    def update_password(self, user: User, new_password: str) -> User:
-        """Actualiza la contraseña del usuario"""
-        user.password = make_password(new_password)
-        user.save()
-        return user

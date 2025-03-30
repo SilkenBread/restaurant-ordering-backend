@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.forms import ValidationError
 from apps.authentication.dtos.login_dto import LoginDTO
 from apps.authentication.dtos.password_change_dto import PasswordChangeDTO
 from apps.authentication.dtos.token_dto import TokenDTO
@@ -14,7 +15,7 @@ class AuthService:
         self.repository = repository or UserRepository()
 
     def login(self, login_dto: LoginDTO) -> TokenDTO:
-        """Autentica un usuario y retorna tokens JWT"""
+        """Autentica un usuario"""
         errors = login_dto.validate()
         if errors:
             raise ValidationException(_("Datos inválidos"), errors)
@@ -45,19 +46,24 @@ class AuthService:
             return True
         except TokenError:
             return False
-
+        
     def change_password(self, user, password_dto: PasswordChangeDTO) -> None:
         """Cambia la contraseña de un usuario"""
-        errors = password_dto.validate()
-        if errors:
-            raise ValidationException(_("Datos inválidos"), errors)
-        
-        if not user.check_password(password_dto.old_password):
-            raise UnauthorizedException(_("Contraseña actual incorrecta"))
-        
-        user.set_password(password_dto.new_password)
-        user.save()
-
-        # Limpiar cache del usuario
-        cache.delete_pattern(f'user_email_{user.email}')
-        cache.delete_pattern(f'user_{user.id}')
+        try:
+            password_dto.validate(user=user)
+            
+            if not user.check_password(password_dto.old_password):
+                raise UnauthorizedException(_("Contraseña actual incorrecta"))
+            
+            user.set_password(password_dto.new_password)
+            user.save()
+            
+            # Limpiar cache
+            cache.delete_pattern(f'user_email_{user.email}')
+            cache.delete_pattern(f'user_{user.id}')
+            
+        except ValidationError as e:
+            raise ValidationException(
+                detail=_("Error en validación de contraseña"),
+                errors={'new_password': e.messages if hasattr(e, 'messages') else [str(e)]}
+            )
