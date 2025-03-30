@@ -53,6 +53,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('Apellido'), max_length=100)
     phone = models.CharField(_('Teléfono'), max_length=20, blank=True, null=True)
     default_address = models.TextField(_('Dirección por defecto'), blank=True, null=True)
+
+    restaurant = models.ForeignKey(
+        'restaurants.Restaurant',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_('Restaurant')
+    )
     
     is_staff = models.BooleanField(
         _('Acceso a admin'),

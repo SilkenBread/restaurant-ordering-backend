@@ -1,36 +1,109 @@
-from django.core.exceptions import ObjectDoesNotExist
-from typing import List, Optional, Dict
+from typing import Optional, Dict, Any
+from django.core.cache import cache
+from django.db import models
+from apps.core.repositories.django_repository import DjangoRepository
 from ..models import Restaurant
-from .interfaces import IRestaurantRepository
 
-class RestaurantRepository(IRestaurantRepository):
-    def get_by_id(self, restaurant_id: int) -> Optional[Restaurant]:
-        try:
-            return Restaurant.objects.get(pk=restaurant_id, is_active=True)
-        except ObjectDoesNotExist:
-            return None
-    
-    def get_all(self) -> List[Restaurant]:
-        return Restaurant.objects.filter(is_active=True).all()
-    
-    def create(self, restaurant_data: dict) -> Restaurant:
-        return Restaurant.objects.create(**restaurant_data)
-    
-    def update(self, restaurant: Restaurant, restaurant_data: dict) -> Restaurant:
-        for attr, value in restaurant_data.items():
-            setattr(restaurant, attr, value)
-        restaurant.save()
+class RestaurantRepository(DjangoRepository[Restaurant]):
+    def __init__(self):
+        super().__init__(Restaurant)
+        self.cache_timeout = 60 * 15  # 15 minutos
+
+    def get_by_id(self, id: int) -> Optional[Restaurant]:
+        """
+        Obtiene un restaurante por ID
+        
+        Args:
+            id (int): ID del restaurante
+            
+        Returns:
+            Optional[Restaurant]: Instancia del modelo o None si no existe
+        """
+        cache_key = f'restaurant_{id}'
+        restaurant = cache.get(cache_key)
+        
+        if not restaurant:
+            restaurant = super().get_by_id(id)
+            if restaurant:
+                cache.set(cache_key, restaurant, self.cache_timeout)
+        
         return restaurant
     
-    def delete(self, restaurant: Restaurant) -> None:
-        restaurant.is_active = False
-        restaurant.save()
+    def get_all(self, filters: Optional[Dict[str, Any]] = None) -> models.QuerySet:
+        """
+        Obtiene todos los restaurantes con posibilidad de filtrar
+        
+        Args:
+            filters (Optional[Dict[str, Any]]): Diccionario de filtros
+            
+        Returns:
+            models.QuerySet: QuerySet de restaurantes
+        """
+        cache_key = f'restaurants_all_{str(filters)}'
+        
+        # Obtener parámetros de filtro para reconstruir el queryset
+        cached_params = cache.get(cache_key)
+        
+        if cached_params is None:
+            # Si no hay cache, crear nuevo queryset
+            queryset = super().get_all(filters)
 
-    def filter(self, filters: Dict = None, queryset=None) -> List[Restaurant]:
-        if queryset is None:
-            queryset = Restaurant.objects.filter(is_active=True)
+            cache.set(cache_key, {
+                'filters': filters,
+                'model': self.model_class.__name__
+            }, self.cache_timeout)
+            return queryset
+        else:
+            # Reconstruir el queryset desde los parámetros
+            queryset = self.model_class.objects.all()
+            if cached_params['filters']:
+                queryset = queryset.filter(**cached_params['filters'])
+            return queryset
+    
+    def create(self, entity: Restaurant) -> Restaurant:
+        """
+        Crea un nuevo restaurante
         
-        if filters:
-            queryset = queryset.filter(**filters)
+        Args:
+            entity (Restaurant): Instancia del modelo a crear
+            
+        Returns:
+            Restaurant: Instancia creada
+        """
+        entity = super().create(entity)
+        cache.delete_pattern('restaurants_*')
+        return entity
+    
+    def update(self, entity: Restaurant) -> Restaurant:
+        """
+        Actualiza un restaurante
         
-        return queryset.all()
+        Args:
+            entity (Restaurant): Instancia del modelo a actualizar
+            
+        Returns:
+            Restaurant: Instancia actualizada
+        """
+        entity.save(update_fields=[
+            'name', 'address', 'rating', 'status', 
+            'category', 'latitude', 'longitude', 'is_active'
+        ])
+        cache.delete_pattern(f'restaurant_{entity.id}')
+        cache.delete_pattern('restaurants_*')
+        return entity
+    
+    def delete(self, id: int) -> bool:
+        """
+        Elimina un restaurante
+        
+        Args:
+            id (int): ID del restaurante a eliminar
+            
+        Returns:
+            bool: True si se eliminó, False si no existía
+        """
+        result = super().delete(id)
+        if result:
+            cache.delete_pattern(f'restaurant_{id}')
+            cache.delete_pattern('restaurants_*')
+        return result

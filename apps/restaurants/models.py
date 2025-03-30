@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
 class Restaurant(models.Model):
     class Status(models.TextChoices):
         OPEN = 'open', _('Open')
