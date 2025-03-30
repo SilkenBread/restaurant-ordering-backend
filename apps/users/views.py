@@ -22,58 +22,58 @@ from .dtos.user_register_dto import UserRegisterDTO
 from .serializers import PasswordChangeSerializer, UserCreateSerializer, UserResponseSerializer, UserSerializer, UserUpdateSerializer
 
 
-class LoginAPIView(APIView):
-    permission_classes = [AllowAny]
+# class LoginAPIView(APIView):
+#     permission_classes = [AllowAny]
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.auth_service = AuthService(UserRepository())
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         self.auth_service = AuthService(UserRepository())
     
-    def post(self, request):
-        login_dto = UserLoginDTO(
-            email=request.data.get('email'),
-            password=request.data.get('password')
-        )
+#     def post(self, request):
+#         login_dto = UserLoginDTO(
+#             email=request.data.get('email'),
+#             password=request.data.get('password')
+#         )
         
-        validation_errors = login_dto.validate()
-        if validation_errors:
-            return Response({'errors': validation_errors}, status=status.HTTP_400_BAD_REQUEST)
+#         validation_errors = login_dto.validate()
+#         if validation_errors:
+#             return Response({'errors': validation_errors}, status=status.HTTP_400_BAD_REQUEST)
         
-        response_dto, success = self.auth_service.login(login_dto)
-        if not success:
-            return Response(
-                {'error': 'Credenciales inválidas o usuario inactivo'},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+#         response_dto, success = self.auth_service.login(login_dto)
+#         if not success:
+#             return Response(
+#                 {'error': 'Credenciales inválidas o usuario inactivo'},
+#                 status=status.HTTP_401_UNAUTHORIZED
+#             )
         
-        serializer = UserResponseSerializer(response_dto)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#         serializer = UserResponseSerializer(response_dto)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class RegisterAPIView(APIView):
-    permission_classes = [AllowAny]
-    serializer_class = UserResponseSerializer
+# class RegisterAPIView(APIView):
+#     permission_classes = [AllowAny]
+#     serializer_class = UserResponseSerializer
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.auth_service = AuthService(UserRepository())
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         self.auth_service = AuthService(UserRepository())
     
-    def post(self, request):
-        register_dto = UserRegisterDTO(
-            email=request.data.get('email'),
-            password=request.data.get('password'),
-            first_name=request.data.get('first_name'),
-            last_name=request.data.get('last_name'),
-            restaurant_id=request.data.get('restaurant_id'),
-            phone=request.data.get('phone'),
-            default_address=request.data.get('default_address')
-        )
+#     def post(self, request):
+#         register_dto = UserRegisterDTO(
+#             email=request.data.get('email'),
+#             password=request.data.get('password'),
+#             first_name=request.data.get('first_name'),
+#             last_name=request.data.get('last_name'),
+#             restaurant_id=request.data.get('restaurant_id'),
+#             phone=request.data.get('phone'),
+#             default_address=request.data.get('default_address')
+#         )
         
-        response_dto, errors = self.auth_service.register(register_dto)
-        if errors:
-            return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
+#         response_dto, errors = self.auth_service.register(register_dto)
+#         if errors:
+#             return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = UserSerializer(response_dto)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         serializer = UserSerializer(response_dto)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 class LogoutAPIView(APIView):
     permission_classes = [IsAuthenticated]
@@ -104,33 +104,33 @@ class LogoutAPIView(APIView):
             status=status.HTTP_200_OK
         )
 
-class PasswordChangeAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    serializer_class = PasswordChangeSerializer
+# class PasswordChangeAPIView(APIView):
+#     permission_classes = [IsAuthenticated]
+#     serializer_class = PasswordChangeSerializer
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.user_service = UserService(UserRepository())
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#         self.user_service = UserService(UserRepository())
     
-    def put(self, request):
-        serializer = PasswordChangeSerializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     def put(self, request):
+#         serializer = PasswordChangeSerializer(data=request.data)
+#         if not serializer.is_valid():
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        password_dto = PasswordChangeDTO(
-            current_password=serializer.validated_data['current_password'],
-            new_password=serializer.validated_data['new_password'],
-            confirm_password=serializer.validated_data['confirm_password']
-        )
+#         password_dto = PasswordChangeDTO(
+#             current_password=serializer.validated_data['current_password'],
+#             new_password=serializer.validated_data['new_password'],
+#             confirm_password=serializer.validated_data['confirm_password']
+#         )
         
-        user, errors = self.user_service.change_password(request.user, password_dto)
-        if errors:
-            return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
+#         user, errors = self.user_service.change_password(request.user, password_dto)
+#         if errors:
+#             return Response({'errors': errors}, status=status.HTTP_400_BAD_REQUEST)
             
-        return Response(
-            {'message': 'Password updated successfully'},
-            status=status.HTTP_200_OK
-        )
+#         return Response(
+#             {'message': 'Password updated successfully'},
+#             status=status.HTTP_200_OK
+#         )
 
 
 class UserViewSet(viewsets.ViewSet):

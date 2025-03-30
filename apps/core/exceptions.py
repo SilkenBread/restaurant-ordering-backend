@@ -1,5 +1,6 @@
 from rest_framework.exceptions import APIException
 from django.utils.translation import gettext_lazy as _
+from rest_framework import status
 
 class ValidationException(APIException):
     status_code = 400
@@ -11,3 +12,8 @@ class ValidationException(APIException):
             detail = self.default_detail
         self.errors = errors
         super().__init__({"detail": detail, "errors": errors})
+
+class UnauthorizedException(APIException):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    default_detail = _("Credenciales inválidas.")
+    default_code = "unauthorized"
