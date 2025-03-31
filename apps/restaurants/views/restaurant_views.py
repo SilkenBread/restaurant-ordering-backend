@@ -115,15 +115,10 @@ class RestaurantRetrieveUpdateDestroyAPIView(APIView):
     @permission_required(['restaurants.change_restaurant'])
     def put(self, request, restaurant_id):
         try:
-            restaurant_data = RestaurantUpdateDTO(**request.data)
-            response_data = service.update_restaurant(restaurant_id, restaurant_data)
+            response_data = service.update_restaurant(restaurant_id, request.data)
             return Response(response_data, status=status.HTTP_200_OK)
-        except NotFound as e:
-            return Response({
-                "status": "error",
-                "code": "not_found",
-                "message": str(e)
-            }, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response(e.detail, status=e.status_code)
     
     @permission_required(['restaurants.delete_restaurant'])
     def delete(self, request, restaurant_id):

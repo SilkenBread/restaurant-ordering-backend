@@ -1,4 +1,5 @@
 from rest_framework.exceptions import NotFound
+from rest_framework import serializers
 from typing import Optional, Dict, Any, Union
 from django.utils.translation import gettext_lazy as _
 from django.db import models
@@ -12,6 +13,14 @@ from ..filters.restaurant_filters import RestaurantFilter
 class RestaurantService:
     def __init__(self, repository: RestaurantRepository = None):
         self.repository = repository or RestaurantRepository()
+
+    def _format_validation_error(self, serializer_errors):
+        return {
+            "status": "error",
+            "code": "validation_error",
+            "message": _("Error de validación en los datos proporcionados"),
+            "errors": serializer_errors
+        }
 
     def get_restaurant(self, restaurant_id: int) -> Optional[RestaurantDTO]:
         restaurant = self.repository.get_by_id(restaurant_id)
@@ -37,21 +46,43 @@ class RestaurantService:
         
         return RestaurantDTOSerializer(self._to_dto(created)).data
         
-    def update_restaurant(self, restaurant_id: int, restaurant_data: RestaurantUpdateDTO) -> Dict:
-        existing = self.repository.get_by_id(restaurant_id)
-        if not existing:
-            raise NotFound(_("Restaurante no encontrado"))
+    def update_restaurant(self, restaurant_id: int, restaurant_data: Dict) -> Dict:
+        try:
+            existing = self.repository.get_by_id(restaurant_id)
+            if not existing:
+                raise NotFound(detail={
+                    "status": "error",
+                    "code": "not_found",
+                    "message": _("Restaurante no encontrado")
+                })
         
-        serializer = RestaurantUpdateDTOSerializer(data=restaurant_data.__dict__)
-        serializer.is_valid(raise_exception=True)
+            serializer = RestaurantUpdateDTOSerializer(data=restaurant_data)
+            serializer.is_valid(raise_exception=True)
+
+            # Verificar campos para actualizar
+            if not serializer.validated_data:
+                return {
+                    "status": "success",
+                    "code": "no_changes",
+                    "message": _("No se proporcionaron campos para actualizar"),
+                    "data": RestaurantDTOSerializer(self._to_dto(existing)).data
+                }
         
-        # Actualizar campos
-        for field, value in restaurant_data.__dict__.items():
-            if value is not None:
-                setattr(existing, field, value)
-        
-        updated = self.repository.update(existing)
-        return RestaurantDTOSerializer(self._to_dto(updated)).data
+            # Actualizar campos
+            for field, value in serializer.validated_data.items():
+                if value is not None:
+                    setattr(existing, field, value)
+            
+            updated = self.repository.update(existing)
+            return RestaurantDTOSerializer(self._to_dto(updated)).data
+        except serializers.ValidationError as e:
+            raise ValidationException(detail=self._format_validation_error(e.detail))
+        except Exception as e:
+            raise ValidationException(detail={
+                "status": "error",
+                "code": "update_error",
+                "message": str(e)
+            })
     
     def delete_restaurant(self, restaurant_id: int) -> bool:
         return self.repository.delete(restaurant_id)

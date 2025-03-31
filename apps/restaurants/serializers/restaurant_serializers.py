@@ -51,11 +51,27 @@ class RestaurantCreateDTOSerializer(serializers.Serializer):
     is_active = serializers.BooleanField(default=True)
 
 class RestaurantUpdateDTOSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=255, required=False)
-    address = serializers.CharField(required=False)
-    rating = serializers.FloatField(min_value=0, max_value=5, required=False)
-    status = serializers.CharField(required=False)
-    category = serializers.CharField(required=False)
-    latitude = serializers.FloatField(required=False)
-    longitude = serializers.FloatField(required=False)
-    is_active = serializers.BooleanField(required=False)
+    name = serializers.CharField(
+        max_length=255, required=False, allow_blank=True, allow_null=True
+    )
+    address = serializers.CharField(
+        required=False, allow_blank=True, allow_null=True
+    )
+    rating = serializers.FloatField(
+        min_value=0, max_value=5, required=False, allow_null=True
+    )
+    status = serializers.CharField(
+        required=False, allow_blank=True, allow_null=True
+    )
+    category = serializers.CharField(
+        required=False, allow_blank=True, allow_null=True
+    )
+    latitude = serializers.FloatField(
+        required=False, allow_null=True
+    )
+    longitude = serializers.FloatField(
+        required=False, allow_null=True
+    )
+    is_active = serializers.BooleanField(
+        required=False, allow_null=True
+    )
