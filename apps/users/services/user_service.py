@@ -1,5 +1,6 @@
+from datetime import timezone
 from typing import Dict, Optional, Any, Union
-from django.db import models
+from django.db import IntegrityError, models
 from django.utils.translation import gettext_lazy as _
 from rest_framework.exceptions import NotFound, ValidationError
 
@@ -53,7 +54,7 @@ class UserService:
             created = self.repository.create(user)
             
             return UserDTOSerializer(self._to_dto(created)).data
-            
+        
         except serializers.ValidationError as e:
             raise ValidationError(detail=self._format_validation_error(e.detail))
         except Exception as e:
@@ -85,16 +86,19 @@ class UserService:
                     "data": UserDTOSerializer(self._to_dto(existing)).data
                 }
             
-            # Actualizar campos
+            # Crear una copia del usuario existente para comparar cambios
+            updated_user = self._to_model(self._to_dto(existing))
+            
+            # Aplicar cambios
             for field, value in serializer.validated_data.items():
                 if field == 'password' and value:
-                    existing.set_password(value)
-                elif value is not None:  # Solo actualizar si el valor no es None
-                    setattr(existing, field, value)
+                    updated_user.set_password(value)
+                elif value is not None:
+                    setattr(updated_user, field, value)
             
-            updated = self.repository.update(existing)
+            updated = self.repository.update(updated_user)
             return UserDTOSerializer(self._to_dto(updated)).data
-            
+    
         except serializers.ValidationError as e:
             raise ValidationError(detail=self._format_validation_error(e.detail))
         except Exception as e:

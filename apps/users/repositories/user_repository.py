@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 from django.core.cache import cache
 from typing import Dict, Any, Optional
@@ -42,27 +43,36 @@ class UserRepository(DjangoRepository[User]):
         
         changed_fields = []
         for field in ['email', 'first_name', 'last_name', 'phone', 
-                     'default_address', 'restaurant_id', 'is_active']:
+                     'default_address', 'restaurant_id']:
             if getattr(entity, field) != getattr(existing, field):
                 changed_fields.append(field)
+        
+        # Manejar is_active solo si está explícitamente en la entidad
+        # if hasattr(entity, 'is_active') and 'is_active' in entity.__dict__:
+        #     if entity.is_active != existing.is_active:
+        #         changed_fields.append('is_active')
         
         if not changed_fields:
             return existing
         
-        entity.save(update_fields=changed_fields + ['last_updated'])
+        # Solo actualizar campos que cambiaron
+        for field in changed_fields:
+            setattr(existing, field, getattr(entity, field))
+        
+        existing.save(update_fields=changed_fields)
         
         cache.delete(f'user_{entity.id}')
         cache.delete_pattern('users_*')
-        return entity
-    
+        return existing
+
     def delete(self, id: int) -> bool:
-        # desactivate the user instead of deleting it
+        # desactivar usuario
         user = self.get_by_id(id)
         if not user:
             return False
         user.is_active = False
-        user.save(update_fields=['is_active'])
-        # remove from cache
+        user.save()
+
         cache.delete(f'user_{id}')
         cache.delete_pattern('users_*')
         return True

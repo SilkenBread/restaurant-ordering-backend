@@ -1,4 +1,22 @@
 services:
+  redis:
+    image: redis:7.4
+    container_name: restaurant-ordering-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - restaurant-ordering-network
+    environment:
+      - TZ=America/Bogota
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   django:
     build:
       context: .
@@ -10,12 +28,18 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - restaurant-ordering-network
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py wait_for_redis &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
-      - TZ=America/Bogota 
+      - TZ=America/Bogota
 
   database:
     image: postgres:17.3
@@ -29,20 +53,25 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - TZ=America/Bogota 
+      - TZ=America/Bogota
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  redis:
-    image: redis:7.4
-    container_name: restaurant-ordering-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    command: redis-server --appendonly yes
-    networks:
-      - restaurant-ordering-network
-    environment:
-      - TZ=America/Bogota 
+  # redis:
+  #   image: redis:7.4
+  #   container_name: restaurant-ordering-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   command: redis-server --appendonly yes
+  #   networks:
+  #     - restaurant-ordering-network
+  #   environment:
+  #     - TZ=America/Bogota 
     
   celery_worker:
     build:

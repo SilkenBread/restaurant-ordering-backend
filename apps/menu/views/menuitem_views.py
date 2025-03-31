@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth.decorators import permission_required
-from django.utils.decorators import method_decorator
 from apps.menu.dependencies import get_menu_item_service
 from apps.menu.serializers.menuitem_serializer import MenuItemDTOSerializer
 
@@ -40,7 +39,7 @@ class MenuItemListCreateAPIView(APIView):
             'page_size': self.paginator.page_size,
         })
     
-    @method_decorator(permission_required(['menu.view_menuitem']))
+    @permission_required(['menu.view_menuitem'])
     def get(self, request):
         try:
             filters = request.query_params.dict()
@@ -70,7 +69,7 @@ class MenuItemListCreateAPIView(APIView):
             return Response(getattr(e, 'detail', {'error': str(e)}), 
                             status=getattr(e, 'status_code', status.HTTP_400_BAD_REQUEST))
     
-    @method_decorator(permission_required(['menu.add_menuitem']))
+    @permission_required(['menu.add_menuitem'])
     def post(self, request):
         try:
             # Extraer archivo de imagen si está presente
@@ -91,7 +90,7 @@ class MenuItemListCreateAPIView(APIView):
 class MenuItemRetrieveUpdateDestroyAPIView(APIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
     
-    @method_decorator(permission_required(['menu.view_menuitem']))
+    @permission_required(['menu.view_menuitem'])
     def get(self, request, menu_item_id):
         try:
             menu_item = service.get_menu_item(menu_item_id)
@@ -101,7 +100,7 @@ class MenuItemRetrieveUpdateDestroyAPIView(APIView):
             return Response(getattr(e, 'detail', {'error': str(e)}), 
                             status=getattr(e, 'status_code', status.HTTP_404_NOT_FOUND))
         
-    @method_decorator(permission_required(['menu.change_menuitem']))
+    @permission_required(['menu.change_menuitem'])
     def put(self, request, menu_item_id):
         try:
             # Extraer archivo de imagen si está presente
@@ -123,7 +122,7 @@ class MenuItemRetrieveUpdateDestroyAPIView(APIView):
             return Response(getattr(e, 'detail', {'error': str(e)}), 
                             status=getattr(e, 'status_code', status.HTTP_400_BAD_REQUEST))
     
-    @method_decorator(permission_required(['menu.delete_menuitem']))
+    @permission_required(['menu.delete_menuitem'])
     def delete(self, request, menu_item_id):
         try:
             service.delete_menu_item(menu_item_id)

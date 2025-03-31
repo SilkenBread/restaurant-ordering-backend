@@ -154,10 +154,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'es'
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'es-co'
+TIME_ZONE = 'America/Bogota'
 USE_I18N = True
-USE_TZ = True
+USE_L10N = True
+USE_TZ = False
 
 
 AUTH_USER_MODEL = 'users.User'
@@ -202,6 +203,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 # Celery
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_CONNECTION_MAX_RETRIES = 10
+CELERY_BROKER_POOL_LIMIT = None
+CELERY_TIMEZONE = 'America/Bogota'
+CELERY_ENABLE_UTC = False

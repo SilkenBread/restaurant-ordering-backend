@@ -167,3 +167,26 @@ class UserUpdateDTOSerializer(serializers.Serializer):
             })
         
         return data
+
+class BulkUserUploadSerializer(serializers.Serializer):
+    file = serializers.FileField(
+        required=True,
+        help_text="Archivo CSV con los usuarios a crear. Formato: email;first_name;last_name;phone;password;...",
+        error_messages={
+            'required': _('Debe proporcionar un archivo CSV')
+        }
+    )
+    
+    def validate_file(self, value):
+        """
+        Validación del archivo CSV:
+        - Verifica que el archivo sea un CSV
+        - Verifica que el tamaño del archivo no exceda 1MB
+        """
+        if not value.name.endswith('.csv'):
+            raise serializers.ValidationError(_("El archivo debe ser CSV"))
+        
+        if value.size > 1024 * 1024:  # 1MB máximo
+            raise serializers.ValidationError(_("El archivo es demasiado grande (máximo 1MB)"))
+        
+        return value

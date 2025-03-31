@@ -1,5 +1,5 @@
-import csv
 import os
+import csv
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -27,12 +27,13 @@ class Command(BaseCommand):
                     "actualizar": "change",
                     "eliminar": "delete"
                 }
+
                 # Obtener o crear grupo
                 group, created = Group.objects.get_or_create(name=group_name)
                 if created:
                     self.stdout.write(self.style.SUCCESS(f"Grupo '{group_name}' creado."))
-                
-                # Obtener modelo
+
+                # Buscar modelo en todas las apps
                 model = None
                 for app_config in apps.get_app_configs():
                     try:
@@ -46,16 +47,17 @@ class Command(BaseCommand):
                     continue
 
                 content_type = ContentType.objects.get_for_model(model)
+                model_db_name = content_type.model
 
                 # Asignar permisos al grupo
                 for action, codename_prefix in permissions_map.items():
                     if row[action] == "1":
-                        codename = f"{codename_prefix}_{model._meta.model_name}"
-                        permission = Permission.objects.filter(codename=codename, content_type=content_type).first()
-                        
+                        codename = f"{codename_prefix}_{model_db_name}"
+                        permission = Permission.objects.filter(codename=codename).first()
+
                         if permission:
                             group.permissions.add(permission)
-                            self.stdout.write(self.style.SUCCESS(f"Permiso '{codename}' asignado a '{group_name}'."))
+                            self.stdout.write(self.style.SUCCESS(f"Permiso '{codename}' asignado a '{group_name}'."))  
                         else:
                             self.stdout.write(self.style.ERROR(f"Permiso '{codename}' no encontrado."))
 

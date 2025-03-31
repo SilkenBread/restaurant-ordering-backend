@@ -51,8 +51,8 @@ class Order(models.Model):
     
     class Meta:
         db_table = "ORDERS"
-        verbose_name = "Order"
-        verbose_name_plural = "Orders"
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
         ordering = ["-created_at"]
 
 class OrderItem(models.Model):
@@ -88,6 +88,6 @@ class OrderItem(models.Model):
     
     class Meta:
         db_table = "ORDER_ITEMS"
-        verbose_name = _("Order Item")
-        verbose_name_plural = _("Order Items")
+        verbose_name = _('Order Item')
+        verbose_name_plural = _('Order Items')
         ordering = ["-created_at"]

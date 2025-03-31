@@ -89,8 +89,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         db_table = 'USERS'
-        verbose_name = _('User')
-        verbose_name_plural = _('Users')
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
         ordering = ['-date_joined']
 
     def __str__(self):
