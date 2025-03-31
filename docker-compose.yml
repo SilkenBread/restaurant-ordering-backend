@@ -14,6 +14,8 @@ services:
     networks:
       - restaurant-ordering-network
     command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - TZ=America/Bogota 
 
   database:
     image: postgres:17.3
@@ -26,6 +28,8 @@ services:
       - restaurant-ordering-network
     ports:
       - "5432:5432"
+    environment:
+      - TZ=America/Bogota 
 
   redis:
     image: redis:7.4
@@ -37,6 +41,8 @@ services:
     command: redis-server --appendonly yes
     networks:
       - restaurant-ordering-network
+    environment:
+      - TZ=America/Bogota 
     
   celery_worker:
     build:

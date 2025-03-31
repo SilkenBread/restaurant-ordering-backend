@@ -1,14 +1,7 @@
-from .routers import router
-from django.urls import path, include
-from .views import LoginAPIView, LogoutAPIView, PasswordChangeAPIView, RegisterAPIView
-from rest_framework_simplejwt.views import TokenRefreshView
+from django.urls import path
+from .views.user_views import UserListCreateAPIView, UserRetrieveUpdateDestroyAPIView
 
 urlpatterns = [
-    path('', include(router.urls)),
-    
-    path('auth/login/', LoginAPIView.as_view(), name='login'),
-    path('auth/register/', RegisterAPIView.as_view(), name='register'),
-    path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('auth/logout/', LogoutAPIView.as_view(), name='logout'),
-    path('auth/password/change/', PasswordChangeAPIView.as_view(), name='password-change'),
+    path('', UserListCreateAPIView.as_view(), name='user-list-create'),
+    path('<int:user_id>/', UserRetrieveUpdateDestroyAPIView.as_view(), name='user-retrieve-update-destroy'),
 ]

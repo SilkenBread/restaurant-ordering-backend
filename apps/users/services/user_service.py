@@ -1,89 +1,155 @@
-from typing import List, Tuple, Optional
+from typing import Dict, Optional, Any, Union
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import NotFound, ValidationError
 
-from apps.users.filters.user_filters import UserFilter
-
-from ..dtos.user_create_dto import UserCreateDTO
-from ..dtos.user_filter_dto import UserFilterDTO
-from ..dtos.user_update_dto import UserUpdateDTO
-
+from ..dtos.user_dtos import UserCreateDTO, UserDTO, UserUpdateDTO
+from ..filters.user_filters import UserFilter
 from ..repositories.user_repository import UserRepository
-from ..dtos.password_change_dto import PasswordChangeDTO
+from ..serializers.user_serializers import UserCreateDTOSerializer, UserDTOSerializer, UserUpdateDTOSerializer
 from ..models import User
-
+from rest_framework import serializers
 
 class UserService:
-    def __init__(self, repository: UserRepository):
-        self.repository = repository
-    
-    def get_user(self, user_id: int) -> Optional[User]:
-        return self.repository.get_by_id(user_id)
-    
-    def list_users(self) -> List[User]:
-        return self.repository.get_all()
-    
-    def create_user(self, user_dto: UserCreateDTO) -> Tuple[Optional[User], dict]:
-        validation_errors = user_dto.validate()
-        if validation_errors:
-            return None, validation_errors
-        
-        if self.repository.get_by_email(user_dto.email):
-            return None, {'email': 'User with this email already exists'}
-        
-        user_data = {
-            'email': user_dto.email,
-            'password': user_dto.password,
-            'first_name': user_dto.first_name,
-            'last_name': user_dto.last_name,
-            'phone': user_dto.phone,
-            'default_address': user_dto.default_address
+    def __init__(self, repository: UserRepository = None):
+        self.repository = repository or UserRepository()
+
+    def _format_validation_error(self, serializer_errors):
+        return {
+            "status": "error",
+            "code": "validation_error",
+            "message": _("Error de validación en los datos proporcionados"),
+            "errors": serializer_errors
         }
-        
-        if user_dto.restaurant_id:
-            user_data['restaurant_id'] = user_dto.restaurant_id
-        
-        user = self.repository.create(user_data)
-        return user, {}
     
-    def update_user(self, user_id: int, user_dto: UserUpdateDTO) -> Tuple[Optional[User], dict]:
+    def get_user(self, user_id: int) -> Optional[UserDTO]:
         user = self.repository.get_by_id(user_id)
         if not user:
-            return None, {'error': 'User not found'}
-        
-        validation_errors = user_dto.validate()
-        if validation_errors:
-            return None, validation_errors
-        
-        if user_dto.email and user_dto.email != user.email:
-            if self.repository.get_by_email(user_dto.email):
-                return None, {'email': 'Email already in use by another user'}
-        
-        update_data = {
-            'email': user_dto.email,
-            'first_name': user_dto.first_name,
-            'last_name': user_dto.last_name,
-            'phone': user_dto.phone,
-            'default_address': user_dto.default_address,
-            'is_active': user_dto.is_active
-        }
-        
-        if user_dto.restaurant_id:
-            update_data['restaurant_id'] = user_dto.restaurant_id
-        
-        # Eliminar campos None
-        update_data = {k: v for k, v in update_data.items() if v is not None}
-        
-        updated_user = self.repository.update(user, update_data)
-        return updated_user, {}
+            raise NotFound(detail={
+                "status": "error",
+                "code": "not_found",
+                "message": _("Usuario no encontrado")
+            })
+        return self._to_dto(user)
     
-    def delete_user(self, user_id: int) -> Tuple[bool, dict]:
-        user = self.repository.get_by_id(user_id)
-        if not user:
-            return False, {'error': 'User not found'}
+    def list_users(self, filters: Optional[Dict[str, Any]] = None) -> models.QuerySet:
+        try:
+            base_queryset = self.repository.get_all()
+            filter_set = UserFilter(filters or {}, queryset=base_queryset)
+            return filter_set.qs.order_by('-date_joined')
+        except Exception as e:
+            raise ValidationError(detail={
+                "status": "error",
+                "code": "filter_error",
+                "message": str(e)
+            })
         
-        self.repository.delete(user)
-        return True, {}
+    def create_user(self, user_data: Dict) -> Dict:
+        try:
+            serializer = UserCreateDTOSerializer(data=user_data)
+            serializer.is_valid(raise_exception=True)
+            
+            user = self._to_model(UserCreateDTO(**serializer.validated_data))
+            created = self.repository.create(user)
+            
+            return UserDTOSerializer(self._to_dto(created)).data
+            
+        except serializers.ValidationError as e:
+            raise ValidationError(detail=self._format_validation_error(e.detail))
+        except Exception as e:
+            raise ValidationError(detail={
+                "status": "error",
+                "code": "create_error",
+                "message": str(e)
+            })
+        
+    def update_user(self, user_id: int, user_data: Dict) -> Dict:
+        try:
+            existing = self.repository.get_by_id(user_id)
+            if not existing:
+                raise NotFound(detail={
+                    "status": "error",
+                    "code": "not_found",
+                    "message": _("Usuario no encontrado")
+                })
+            
+            serializer = UserUpdateDTOSerializer(data=user_data)
+            serializer.is_valid(raise_exception=True)
+            
+            # Verificar campos para actualizar
+            if not serializer.validated_data:
+                return {
+                    "status": "success",
+                    "code": "no_changes",
+                    "message": _("No se proporcionaron campos para actualizar"),
+                    "data": UserDTOSerializer(self._to_dto(existing)).data
+                }
+            
+            # Actualizar campos
+            for field, value in serializer.validated_data.items():
+                if field == 'password' and value:
+                    existing.set_password(value)
+                elif value is not None:  # Solo actualizar si el valor no es None
+                    setattr(existing, field, value)
+            
+            updated = self.repository.update(existing)
+            return UserDTOSerializer(self._to_dto(updated)).data
+            
+        except serializers.ValidationError as e:
+            raise ValidationError(detail=self._format_validation_error(e.detail))
+        except Exception as e:
+            raise ValidationError(detail={
+                "status": "error",
+                "code": "update_error",
+                "message": str(e)
+            })
     
-    def get_filtered_queryset(self, filters=None, queryset=None) -> List[User]:
-        qs = User.objects.filter(is_active=True)
-        user_filter = UserFilter(filters, queryset=qs)
-        return user_filter.qs
+    def delete_user(self, user_id: int) -> bool:
+        try:
+            deleted = self.repository.delete(user_id)
+            if not deleted:
+                raise NotFound(detail={
+                    "status": "error",
+                    "code": "not_found",
+                    "message": _("Usuario no encontrado")
+                })
+            return deleted
+        except Exception as e:
+            raise ValidationError(detail={
+                "status": "error",
+                "code": "delete_error",
+                "message": str(e)
+            })
+    
+    def _to_dto(self, model: User) -> UserDTO:
+        return UserDTO(
+            id=model.id,
+            email=model.email,
+            first_name=model.first_name,
+            last_name=model.last_name,
+            phone=model.phone,
+            default_address=model.default_address,
+            restaurant_id=model.restaurant_id,
+            is_active=model.is_active,
+            date_joined=model.date_joined,
+            last_updated=model.last_updated
+        )
+    
+    def _to_model(self, dto: Union[UserCreateDTO, UserUpdateDTO, UserDTO]) -> User:
+        model = self.repository.model_class()
+        
+        if isinstance(dto, UserDTO):
+            model.id = dto.id
+            model.date_joined = dto.date_joined
+            model.last_updated = dto.last_updated
+        
+        for field in ['email', 'first_name', 'last_name', 'phone', 
+                     'default_address', 'restaurant_id', 'is_active']:
+            value = getattr(dto, field, None)
+            if value is not None:
+                setattr(model, field, value)
+        
+        if isinstance(dto, UserCreateDTO) and dto.password:
+            model.set_password(dto.password)
+        
+        return model

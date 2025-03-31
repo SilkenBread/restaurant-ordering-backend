@@ -5,8 +5,9 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('restaurants/', include('apps.restaurants.urls')),
     path('auth/', include('apps.authentication.urls')),
+    path('users/', include('apps.users.urls')),
+    path('restaurants/', include('apps.restaurants.urls')),
 
     # Swagger
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
