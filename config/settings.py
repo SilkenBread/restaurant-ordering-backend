@@ -1,6 +1,7 @@
 from datetime import timedelta
 from pathlib import Path
 import environ
+import os
 
 # Inicializar variables de entorno
 env = environ.Env()
@@ -179,8 +180,10 @@ SIMPLE_JWT = {
 
 STATIC_URL = '/static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+# Media 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

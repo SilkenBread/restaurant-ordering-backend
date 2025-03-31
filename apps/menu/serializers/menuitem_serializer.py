@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
+import os
 
 class MenuItemDTOSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
@@ -21,7 +23,15 @@ class MenuItemDTOSerializer(serializers.Serializer):
         format="%Y-%m-%d %H:%M:%S",
         input_formats=["%Y-%m-%d %H:%M:%S", "iso-8601"]
     )
-    image = serializers.ImageField(required=False, allow_null=True)
+    image = serializers.SerializerMethodField()
+    
+    def get_image(self, obj):
+        if obj.image and hasattr(obj.image, 'url'):
+            request = self.context.get('request')
+            if request is not None:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
     
     def validate_name(self, value):
         if not value or len(value) > 255:
@@ -83,6 +93,26 @@ class MenuItemCreateDTOSerializer(serializers.Serializer):
         if value < 0:
             raise serializers.ValidationError(_("El tiempo de preparación no puede ser negativo"))
         return value
+    
+    def validate_image(self, value):
+        if value:
+            # Verificar tamaño máximo (10MB)
+            max_size = 10 * 1024 * 1024  # 10MB en bytes
+            if value.size > max_size:
+                raise serializers.ValidationError(_("La imagen no debe superar los 10MB"))
+            
+            # Verificar formato
+            valid_formats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+            if hasattr(value, 'content_type') and value.content_type not in valid_formats:
+                raise serializers.ValidationError(_("Formato de imagen no válido. Use JPEG, PNG, GIF o WEBP"))
+            
+            # Usar extensión del nombre de archivo como respaldo
+            if hasattr(value, 'name'):
+                ext = os.path.splitext(value.name)[1].lower()
+                if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+                    raise serializers.ValidationError(_("Formato de imagen no válido. Use JPEG, PNG, GIF o WEBP"))
+        
+        return value
 
 class MenuItemUpdateDTOSerializer(serializers.Serializer):
     name = serializers.CharField(
@@ -137,6 +167,26 @@ class MenuItemUpdateDTOSerializer(serializers.Serializer):
     def validate_preparation_time(self, value):
         if value is not None and value < 0:
             raise serializers.ValidationError(_("El tiempo de preparación no puede ser negativo"))
+        return value
+    
+    def validate_image(self, value):
+        if value:
+            # Verificar tamaño máximo (10MB)
+            max_size = 10 * 1024 * 1024  # 10MB en bytes
+            if value.size > max_size:
+                raise serializers.ValidationError(_("La imagen no debe superar los 10MB"))
+            
+            # Verificar formato
+            valid_formats = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+            if hasattr(value, 'content_type') and value.content_type not in valid_formats:
+                raise serializers.ValidationError(_("Formato de imagen no válido. Use JPEG, PNG, GIF o WEBP"))
+            
+            # Usar extensión del nombre de archivo como respaldo
+            if hasattr(value, 'name'):
+                ext = os.path.splitext(value.name)[1].lower()
+                if ext not in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
+                    raise serializers.ValidationError(_("Formato de imagen no válido. Use JPEG, PNG, GIF o WEBP"))
+        
         return value
     
     def validate(self, data):

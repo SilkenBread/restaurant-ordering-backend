@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/', include('apps.authentication.urls')),
     path('users/', include('apps.users.urls')),
     path('restaurants/', include('apps.restaurants.urls')),
+    path('menu/', include('apps.menu.urls')),
 
     # Swagger
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

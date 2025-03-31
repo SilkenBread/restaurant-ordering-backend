@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 from datetime import datetime
 from decimal import Decimal
 from django.utils.translation import gettext_lazy as _
@@ -30,7 +30,7 @@ class MenuItemCreateDTO:
     restaurant_id: int
     is_active: bool = True
     is_available: bool = True
-    image: Optional[str] = None
+    image: Optional[Any] = None
     
     def __post_init__(self):
         """Validación inicial de campos requeridos"""
@@ -77,7 +77,7 @@ class MenuItemUpdateDTO:
     restaurant_id: Optional[int] = None
     is_active: Optional[bool] = None
     is_available: Optional[bool] = None
-    image: Optional[str] = None
+    image: Optional[Any] = None
     
     def __post_init__(self):
         """Validación de restricciones en los campos"""
