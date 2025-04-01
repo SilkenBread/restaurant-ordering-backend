@@ -1,0 +1,33 @@
+{
+	"id": "741357d3-1e2a-4c5b-96ac-9044a36bcd66",
+	"name": "quick-restaurant-backend",
+	"values": [
+		{
+			"key": "host_local",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "task_user_buik_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-01T05:05:45.274Z",
+	"_postman_exported_using": "Postman/11.39.0"
+}

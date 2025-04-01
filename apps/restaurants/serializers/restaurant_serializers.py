@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_serializer
 from django.utils.translation import gettext_lazy as _
-from datetime import datetime
 
 @extend_schema_serializer(
     component_name="Restaurant",

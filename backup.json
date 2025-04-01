@@ -1,0 +1,1720 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "token_blacklist",
+    "model": "blacklistedtoken"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "token_blacklist",
+    "model": "outstandingtoken"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "crontabschedule"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "intervalschedule"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "periodictask"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "periodictasks"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "solarschedule"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "django_celery_beat",
+    "model": "clockedschedule"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "users",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "restaurants",
+    "model": "restaurant"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "menu",
+    "model": "menuitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "orders",
+    "model": "order"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "orders",
+    "model": "orderitem"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "reports",
+    "model": "salesreport"
+  }
+},
+{
+  "model": "token_blacklist.blacklistedtoken",
+  "pk": 1,
+  "fields": {
+    "token": 2,
+    "blacklisted_at": "2025-03-31T21:14:46.109"
+  }
+},
+{
+  "model": "token_blacklist.blacklistedtoken",
+  "pk": 2,
+  "fields": {
+    "token": 3,
+    "blacklisted_at": "2025-03-31T21:15:14.256"
+  }
+},
+{
+  "model": "token_blacklist.blacklistedtoken",
+  "pk": 3,
+  "fields": {
+    "token": 4,
+    "blacklisted_at": "2025-03-31T21:16:48.353"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 1,
+  "fields": {
+    "name": "Sakura Sushi",
+    "address": "Avenida del Mar 456",
+    "rating": "4.5",
+    "status": "open",
+    "category": "japanese",
+    "latitude": 35.689487,
+    "longitude": 139.691706,
+    "is_active": true,
+    "created_at": "2025-03-31T20:01:58.940",
+    "updated_at": "2025-03-31T21:18:44.362"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 2,
+  "fields": {
+    "name": "La Parrilla Argentina",
+    "address": "Calle Asador 789",
+    "rating": "4.8",
+    "status": "open",
+    "category": "steakhouse",
+    "latitude": -34.603684,
+    "longitude": -58.381559,
+    "is_active": true,
+    "created_at": "2025-03-31T20:02:25.065",
+    "updated_at": "2025-03-31T20:02:25.065"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 3,
+  "fields": {
+    "name": "Bella Pasta",
+    "address": "Vía Roma 101",
+    "rating": "4.6",
+    "status": "open",
+    "category": "italian",
+    "latitude": 41.902782,
+    "longitude": 12.496366,
+    "is_active": true,
+    "created_at": "2025-03-31T20:02:39.509",
+    "updated_at": "2025-03-31T20:02:39.509"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 4,
+  "fields": {
+    "name": "Taco Fiesta",
+    "address": "Plaza Central 555",
+    "rating": "4.3",
+    "status": "open",
+    "category": "mexican",
+    "latitude": 19.432608,
+    "longitude": -99.133209,
+    "is_active": true,
+    "created_at": "2025-03-31T20:02:52.588",
+    "updated_at": "2025-03-31T20:02:52.588"
+  }
+},
+{
+  "model": "restaurants.restaurant",
+  "pk": 5,
+  "fields": {
+    "name": "Dragon Wok",
+    "address": "Calle Dragón 321",
+    "rating": "4.7",
+    "status": "open",
+    "category": "chinese",
+    "latitude": 39.904202,
+    "longitude": 116.407394,
+    "is_active": true,
+    "created_at": "2025-03-31T20:03:04.144",
+    "updated_at": "2025-03-31T20:03:04.144"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 1,
+  "fields": {
+    "name": "Sushi Roll",
+    "description": "Roll de salmón y aguacate",
+    "price": "12.50",
+    "preparation_time": 15,
+    "category": "sushi",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 1,
+    "created_at": "2025-03-31T20:06:38.675",
+    "updated_at": "2025-03-31T20:06:38.675",
+    "image": "menu/item_images/sushi-roll.jpg"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 2,
+  "fields": {
+    "name": "Nigiri",
+    "description": "Pieza de arroz con salmón",
+    "price": "6.75",
+    "preparation_time": 10,
+    "category": "sushi",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 1,
+    "created_at": "2025-03-31T20:09:23.431",
+    "updated_at": "2025-03-31T20:09:23.431",
+    "image": "menu/item_images/nigiri.jpg"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 3,
+  "fields": {
+    "name": "Sashimi",
+    "description": "Cortes finos de atún",
+    "price": "14.00",
+    "preparation_time": 12,
+    "category": "sushi",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 1,
+    "created_at": "2025-03-31T20:10:39.964",
+    "updated_at": "2025-03-31T20:10:39.964",
+    "image": "menu/item_images/sashimi.jpg"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 4,
+  "fields": {
+    "name": "Bife de Chorizo",
+    "description": "Corte argentino con papas fritas",
+    "price": "22.50",
+    "preparation_time": 25,
+    "category": "grill",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 2,
+    "created_at": "2025-03-31T20:12:28.233",
+    "updated_at": "2025-03-31T20:12:28.233",
+    "image": "menu/item_images/bife-chorizo.jpg"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 5,
+  "fields": {
+    "name": "Asado",
+    "description": "Costillar a la parrilla",
+    "price": "27.00",
+    "preparation_time": 30,
+    "category": "grill",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 2,
+    "created_at": "2025-03-31T20:13:36.206",
+    "updated_at": "2025-03-31T20:13:36.206",
+    "image": "menu/item_images/asado.jpg"
+  }
+},
+{
+  "model": "menu.menuitem",
+  "pk": 6,
+  "fields": {
+    "name": "Provoleta",
+    "description": "Queso provolone a la parrilla",
+    "price": "10.50",
+    "preparation_time": 10,
+    "category": "appetizer",
+    "is_active": true,
+    "is_available": true,
+    "restaurant": 2,
+    "created_at": "2025-03-31T20:14:59.031",
+    "updated_at": "2025-03-31T20:14:59.031",
+    "image": "menu/item_images/provoleta.jpeg"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "order": 1,
+    "menu_item": 1,
+    "quantity": 2,
+    "subtotal": "25.50",
+    "note": "Sin cebolla por favor",
+    "created_at": "2025-03-31T20:17:37.544",
+    "updated_at": "2025-03-31T20:17:37.544"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 2,
+  "fields": {
+    "is_active": true,
+    "order": 1,
+    "menu_item": 2,
+    "quantity": 1,
+    "subtotal": "12.75",
+    "note": "Extra picante",
+    "created_at": "2025-03-31T20:17:37.544",
+    "updated_at": "2025-03-31T20:17:37.544"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 5,
+  "fields": {
+    "is_active": true,
+    "order": 3,
+    "menu_item": 4,
+    "quantity": 1,
+    "subtotal": "22.50",
+    "note": "Término medio",
+    "created_at": "2025-03-31T20:18:13.677",
+    "updated_at": "2025-03-31T20:18:13.677"
+  }
+},
+{
+  "model": "orders.orderitem",
+  "pk": 6,
+  "fields": {
+    "is_active": true,
+    "order": 3,
+    "menu_item": 6,
+    "quantity": 1,
+    "subtotal": "10.50",
+    "note": "Sin aderezo",
+    "created_at": "2025-03-31T20:18:13.677",
+    "updated_at": "2025-03-31T20:18:13.677"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add blacklisted token",
+    "content_type": [
+      "token_blacklist",
+      "blacklistedtoken"
+    ],
+    "codename": "add_blacklistedtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change blacklisted token",
+    "content_type": [
+      "token_blacklist",
+      "blacklistedtoken"
+    ],
+    "codename": "change_blacklistedtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete blacklisted token",
+    "content_type": [
+      "token_blacklist",
+      "blacklistedtoken"
+    ],
+    "codename": "delete_blacklistedtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view blacklisted token",
+    "content_type": [
+      "token_blacklist",
+      "blacklistedtoken"
+    ],
+    "codename": "view_blacklistedtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add outstanding token",
+    "content_type": [
+      "token_blacklist",
+      "outstandingtoken"
+    ],
+    "codename": "add_outstandingtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change outstanding token",
+    "content_type": [
+      "token_blacklist",
+      "outstandingtoken"
+    ],
+    "codename": "change_outstandingtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete outstanding token",
+    "content_type": [
+      "token_blacklist",
+      "outstandingtoken"
+    ],
+    "codename": "delete_outstandingtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view outstanding token",
+    "content_type": [
+      "token_blacklist",
+      "outstandingtoken"
+    ],
+    "codename": "view_outstandingtoken"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add crontab",
+    "content_type": [
+      "django_celery_beat",
+      "crontabschedule"
+    ],
+    "codename": "add_crontabschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change crontab",
+    "content_type": [
+      "django_celery_beat",
+      "crontabschedule"
+    ],
+    "codename": "change_crontabschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete crontab",
+    "content_type": [
+      "django_celery_beat",
+      "crontabschedule"
+    ],
+    "codename": "delete_crontabschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view crontab",
+    "content_type": [
+      "django_celery_beat",
+      "crontabschedule"
+    ],
+    "codename": "view_crontabschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add interval",
+    "content_type": [
+      "django_celery_beat",
+      "intervalschedule"
+    ],
+    "codename": "add_intervalschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change interval",
+    "content_type": [
+      "django_celery_beat",
+      "intervalschedule"
+    ],
+    "codename": "change_intervalschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete interval",
+    "content_type": [
+      "django_celery_beat",
+      "intervalschedule"
+    ],
+    "codename": "delete_intervalschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view interval",
+    "content_type": [
+      "django_celery_beat",
+      "intervalschedule"
+    ],
+    "codename": "view_intervalschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add periodic task",
+    "content_type": [
+      "django_celery_beat",
+      "periodictask"
+    ],
+    "codename": "add_periodictask"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change periodic task",
+    "content_type": [
+      "django_celery_beat",
+      "periodictask"
+    ],
+    "codename": "change_periodictask"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete periodic task",
+    "content_type": [
+      "django_celery_beat",
+      "periodictask"
+    ],
+    "codename": "delete_periodictask"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view periodic task",
+    "content_type": [
+      "django_celery_beat",
+      "periodictask"
+    ],
+    "codename": "view_periodictask"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add periodic task track",
+    "content_type": [
+      "django_celery_beat",
+      "periodictasks"
+    ],
+    "codename": "add_periodictasks"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change periodic task track",
+    "content_type": [
+      "django_celery_beat",
+      "periodictasks"
+    ],
+    "codename": "change_periodictasks"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete periodic task track",
+    "content_type": [
+      "django_celery_beat",
+      "periodictasks"
+    ],
+    "codename": "delete_periodictasks"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view periodic task track",
+    "content_type": [
+      "django_celery_beat",
+      "periodictasks"
+    ],
+    "codename": "view_periodictasks"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add solar event",
+    "content_type": [
+      "django_celery_beat",
+      "solarschedule"
+    ],
+    "codename": "add_solarschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change solar event",
+    "content_type": [
+      "django_celery_beat",
+      "solarschedule"
+    ],
+    "codename": "change_solarschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete solar event",
+    "content_type": [
+      "django_celery_beat",
+      "solarschedule"
+    ],
+    "codename": "delete_solarschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view solar event",
+    "content_type": [
+      "django_celery_beat",
+      "solarschedule"
+    ],
+    "codename": "view_solarschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add clocked",
+    "content_type": [
+      "django_celery_beat",
+      "clockedschedule"
+    ],
+    "codename": "add_clockedschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change clocked",
+    "content_type": [
+      "django_celery_beat",
+      "clockedschedule"
+    ],
+    "codename": "change_clockedschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete clocked",
+    "content_type": [
+      "django_celery_beat",
+      "clockedschedule"
+    ],
+    "codename": "delete_clockedschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view clocked",
+    "content_type": [
+      "django_celery_beat",
+      "clockedschedule"
+    ],
+    "codename": "view_clockedschedule"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add User",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change User",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete User",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view User",
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Restaurant",
+    "content_type": [
+      "restaurants",
+      "restaurant"
+    ],
+    "codename": "add_restaurant"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Restaurant",
+    "content_type": [
+      "restaurants",
+      "restaurant"
+    ],
+    "codename": "change_restaurant"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Restaurant",
+    "content_type": [
+      "restaurants",
+      "restaurant"
+    ],
+    "codename": "delete_restaurant"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Restaurant",
+    "content_type": [
+      "restaurants",
+      "restaurant"
+    ],
+    "codename": "view_restaurant"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Menu Item",
+    "content_type": [
+      "menu",
+      "menuitem"
+    ],
+    "codename": "add_menuitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Menu Item",
+    "content_type": [
+      "menu",
+      "menuitem"
+    ],
+    "codename": "change_menuitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Menu Item",
+    "content_type": [
+      "menu",
+      "menuitem"
+    ],
+    "codename": "delete_menuitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Menu Item",
+    "content_type": [
+      "menu",
+      "menuitem"
+    ],
+    "codename": "view_menuitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Order",
+    "content_type": [
+      "orders",
+      "order"
+    ],
+    "codename": "add_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Order",
+    "content_type": [
+      "orders",
+      "order"
+    ],
+    "codename": "change_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Order",
+    "content_type": [
+      "orders",
+      "order"
+    ],
+    "codename": "delete_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Order",
+    "content_type": [
+      "orders",
+      "order"
+    ],
+    "codename": "view_order"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add Order Item",
+    "content_type": [
+      "orders",
+      "orderitem"
+    ],
+    "codename": "add_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change Order Item",
+    "content_type": [
+      "orders",
+      "orderitem"
+    ],
+    "codename": "change_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete Order Item",
+    "content_type": [
+      "orders",
+      "orderitem"
+    ],
+    "codename": "delete_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view Order Item",
+    "content_type": [
+      "orders",
+      "orderitem"
+    ],
+    "codename": "view_orderitem"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add sales report",
+    "content_type": [
+      "reports",
+      "salesreport"
+    ],
+    "codename": "add_salesreport"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change sales report",
+    "content_type": [
+      "reports",
+      "salesreport"
+    ],
+    "codename": "change_salesreport"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete sales report",
+    "content_type": [
+      "reports",
+      "salesreport"
+    ],
+    "codename": "delete_salesreport"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view sales report",
+    "content_type": [
+      "reports",
+      "salesreport"
+    ],
+    "codename": "view_salesreport"
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Customer",
+    "permissions": [
+      [
+        "view_menuitem",
+        "menu",
+        "menuitem"
+      ],
+      [
+        "add_order",
+        "orders",
+        "order"
+      ],
+      [
+        "change_order",
+        "orders",
+        "order"
+      ],
+      [
+        "view_order",
+        "orders",
+        "order"
+      ],
+      [
+        "view_restaurant",
+        "restaurants",
+        "restaurant"
+      ],
+      [
+        "view_user",
+        "users",
+        "user"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "fields": {
+    "name": "Dealer",
+    "permissions": [
+      [
+        "add_menuitem",
+        "menu",
+        "menuitem"
+      ],
+      [
+        "change_menuitem",
+        "menu",
+        "menuitem"
+      ],
+      [
+        "delete_menuitem",
+        "menu",
+        "menuitem"
+      ],
+      [
+        "view_menuitem",
+        "menu",
+        "menuitem"
+      ],
+      [
+        "add_order",
+        "orders",
+        "order"
+      ],
+      [
+        "change_order",
+        "orders",
+        "order"
+      ],
+      [
+        "delete_order",
+        "orders",
+        "order"
+      ],
+      [
+        "view_order",
+        "orders",
+        "order"
+      ],
+      [
+        "add_restaurant",
+        "restaurants",
+        "restaurant"
+      ],
+      [
+        "change_restaurant",
+        "restaurants",
+        "restaurant"
+      ],
+      [
+        "delete_restaurant",
+        "restaurants",
+        "restaurant"
+      ],
+      [
+        "view_restaurant",
+        "restaurants",
+        "restaurant"
+      ],
+      [
+        "add_user",
+        "users",
+        "user"
+      ],
+      [
+        "change_user",
+        "users",
+        "user"
+      ],
+      [
+        "view_user",
+        "users",
+        "user"
+      ]
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$26rE8Txdg3HcNUpD46JI5w$KBWTGqIiuvPnIWXq3SlWGfZo+csXKnqfiQteJVc0s6Q=",
+    "last_login": "2025-03-31T21:22:12.046",
+    "email": "admin@gmail.com",
+    "first_name": "Admin",
+    "last_name": "Admin",
+    "phone": "+573205097741",
+    "default_address": "Calle Rubio #46",
+    "restaurant": null,
+    "is_staff": true,
+    "is_superuser": true,
+    "is_active": true,
+    "date_joined": "2025-03-31T19:39:21.754",
+    "last_updated": "2025-03-31T21:53:38.220",
+    "groups": [
+      [
+        "Dealer"
+      ]
+    ],
+    "user_permissions": [
+      [
+        "delete_user",
+        "users",
+        "user"
+      ]
+    ]
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$sYwioyEaraJejj6XVTvdZW$wa1ZjEcrg4eZrEaftDuKAFSyusTS9xNaogOF3CJCOjE=",
+    "last_login": null,
+    "email": "test@example.com",
+    "first_name": "John",
+    "last_name": "Doe",
+    "phone": "+1234567890",
+    "default_address": "123 Main St",
+    "restaurant": 1,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:03:54.730",
+    "last_updated": "2025-03-31T21:25:59.911",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$wEvu8Fm8cMlVORPZGNVEtZ$JiSJ8CaB2aZPZnBNi50lTXADvLyhXoKuUhgySKrGbG0=",
+    "last_login": null,
+    "email": "jua0720@gmail.com",
+    "first_name": "Juan",
+    "last_name": "Rodriguez",
+    "phone": "+573205097741",
+    "default_address": null,
+    "restaurant": null,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$9lSXo9bPIQfpQeEl7LQGgh$rcbJw6ihIuIH7+YfE/eJGLBMV+X0AuBz3I08uHjovdI=",
+    "last_login": null,
+    "email": "ana1985@gmail.com",
+    "first_name": "Ana",
+    "last_name": "Martinez",
+    "phone": "+573104567890",
+    "default_address": "Calle 123, Bogotá",
+    "restaurant": 1,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$dLoYzDcEwHv9kNBOp7hRqa$LfuC0koFf7/zuC3K+ROf4EIaxVEX/tnpJlYosK3feqM=",
+    "last_login": null,
+    "email": "carlos88@gmail.com",
+    "first_name": "Carlos",
+    "last_name": "Lopez",
+    "phone": "+573305098765",
+    "default_address": "Carrera 45, Medellín",
+    "restaurant": 2,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$M0JdX0mbOccxdXfp0n7588$lv0NSesASCyz1YjAl4ydgXp1GF+5PBWT/W1ja59wR7A=",
+    "last_login": null,
+    "email": "luis_perez@gmail.com",
+    "first_name": "Luis",
+    "last_name": "Perez",
+    "phone": "+573105432198",
+    "default_address": "Avenida 78, Cali",
+    "restaurant": 3,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$Q43VSgRqgJZ1vRNptCMLJ0$hBA7SLHIq56ByuJS8ASqJTEtDF5/RbiT2dZN03SIskA=",
+    "last_login": null,
+    "email": "maria_gonzalez@gmail.com",
+    "first_name": "Maria",
+    "last_name": "Gonzalez",
+    "phone": "+573205678912",
+    "default_address": "Calle 56, Barranquilla",
+    "restaurant": 4,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "fields": {
+    "password": "pbkdf2_sha256$870000$ImE5rp5eGEiSU9huvhx0ge$hRUizgJSXnsBaB7CCwzDLtHidmt68eLOapp+Bp+lxFE=",
+    "last_login": null,
+    "email": "pedro_fernandez@gmail.com",
+    "first_name": "Pedro",
+    "last_name": "Fernandez",
+    "phone": "+573108765432",
+    "default_address": "Calle 12, Cartagena",
+    "restaurant": 5,
+    "is_staff": false,
+    "is_superuser": false,
+    "is_active": true,
+    "date_joined": "2025-03-31T21:33:35.351",
+    "last_updated": "2025-03-31T21:33:35.351",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 1,
+  "fields": {
+    "is_active": true,
+    "customer": [
+      "admin@gmail.com"
+    ],
+    "restaurant": 1,
+    "status": "pending",
+    "total_amount": "45.75",
+    "delivery_address": "Calle Principal 123, Apt 4B",
+    "special_instructions": "Tocar el timbre dos veces, el perro no muerde",
+    "estimated_delivery_time": "2025-04-01T18:30:00",
+    "created_at": "2025-03-31T20:17:37.532",
+    "updated_at": "2025-03-31T20:17:37.532"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 3,
+  "fields": {
+    "is_active": true,
+    "customer": [
+      "admin@gmail.com"
+    ],
+    "restaurant": 2,
+    "status": "pending",
+    "total_amount": "30.00",
+    "delivery_address": "Avenida Libertador 890",
+    "special_instructions": "Dejar en portería",
+    "estimated_delivery_time": "2025-04-01T19:00:00",
+    "created_at": "2025-03-31T20:18:13.665",
+    "updated_at": "2025-03-31T20:18:13.665"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "07401742526b4ea48fb588f9430d000a",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU1NDQ4NCwiaWF0IjoxNzQzNDY4MDg0LCJqdGkiOiIwNzQwMTc0MjUyNmI0ZWE0OGZiNTg4Zjk0MzBkMDAwYSIsInVzZXJfaWQiOjF9.xf817RBUuN5CL2koViah5gmFJx9T4OjdqCKU7U4W2E8",
+    "created_at": "2025-04-01T00:41:24.315",
+    "expires_at": "2025-04-02T00:41:24"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "72df3c47924145dfa75ae64ca6d2297f",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU1OTM1NywiaWF0IjoxNzQzNDcyOTU3LCJqdGkiOiI3MmRmM2M0NzkyNDE0NWRmYTc1YWU2NGNhNmQyMjk3ZiIsInVzZXJfaWQiOjF9.IZcF9iqY_3oby_3pEoqlACibXheh2zwmtQgW5I9diFY",
+    "created_at": "2025-04-01T02:02:37.224",
+    "expires_at": "2025-04-02T02:02:37"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "6c0e930ef73c4ead89edb57ed3ec0b16",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MDA4OSwiaWF0IjoxNzQzNDczNjg5LCJqdGkiOiI2YzBlOTMwZWY3M2M0ZWFkODllZGI1N2VkM2VjMGIxNiIsInVzZXJfaWQiOjF9.TiVV3t6TU1k8cYnBkLVWapvzKwjMzCufM6U3MdwMqxE",
+    "created_at": "2025-04-01T02:14:49.943",
+    "expires_at": "2025-04-02T02:14:49"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "c51feadebb4a4a9283a90b69140ead9c",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MDEyMywiaWF0IjoxNzQzNDczNzIzLCJqdGkiOiJjNTFmZWFkZWJiNGE0YTkyODNhOTBiNjkxNDBlYWQ5YyIsInVzZXJfaWQiOjF9.lNuB4rv13S7BBA47xMMdUADjzY7C3nDFCPCTfvwqMFY",
+    "created_at": "2025-04-01T02:15:23.566",
+    "expires_at": "2025-04-02T02:15:23"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "b07fad4c74774c91be95484178d3d954",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MDI0MSwiaWF0IjoxNzQzNDczODQxLCJqdGkiOiJiMDdmYWQ0Yzc0Nzc0YzkxYmU5NTQ4NDE3OGQzZDk1NCIsInVzZXJfaWQiOjF9.49l-c2x8s11Zjum3fSlWjCyJqmQz3PlcvKE2j7O1Yk8",
+    "created_at": "2025-04-01T02:17:21.430",
+    "expires_at": "2025-04-02T02:17:21"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "c6cd7d061b554d5e81675d829c49e73d",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MDI1MywiaWF0IjoxNzQzNDczODUzLCJqdGkiOiJjNmNkN2QwNjFiNTU0ZDVlODE2NzVkODI5YzQ5ZTczZCIsInVzZXJfaWQiOjF9.0QIVmvlzjCRjUuotTIGPIoNI6aTfmr2cAVbMS1RuGGs",
+    "created_at": "2025-04-01T02:17:33.974",
+    "expires_at": "2025-04-02T02:17:33"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "1f31d579aa544479a66f7a616776edc3",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MjI1NywiaWF0IjoxNzQzNDc1ODU3LCJqdGkiOiIxZjMxZDU3OWFhNTQ0NDc5YTY2ZjdhNjE2Nzc2ZWRjMyIsInVzZXJfaWQiOjF9.58y_t5FIyzGJSJDl4XB4vytR_zMmyqDX7YExFlTHYJg",
+    "created_at": "2025-04-01T02:50:57.880",
+    "expires_at": "2025-04-02T02:50:57"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "fd3cc6b86d8c4bd6aca777f4b29303b7",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2MjM2NiwiaWF0IjoxNzQzNDc1OTY2LCJqdGkiOiJmZDNjYzZiODZkOGM0YmQ2YWNhNzc3ZjRiMjkzMDNiNyIsInVzZXJfaWQiOjF9.hHFBtay4yZvNzkQGSN3RffuCelc5dWkuimX6uSP1P-s",
+    "created_at": "2025-04-01T02:52:46.806",
+    "expires_at": "2025-04-02T02:52:46"
+  }
+},
+{
+  "model": "token_blacklist.outstandingtoken",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "admin@gmail.com"
+    ],
+    "jti": "a411afd60b3841c1b1dd6488a43e9d33",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MzU2NjAxMSwiaWF0IjoxNzQzNDc5NjExLCJqdGkiOiJhNDExYWZkNjBiMzg0MWMxYjFkZDY0ODhhNDNlOWQzMyIsInVzZXJfaWQiOjF9.fKlhLXaP8ZVK7H0r_u9uV3U8qvQ9rGFCQ9ZuL_R7Z8Q",
+    "created_at": "2025-04-01T03:53:31.247",
+    "expires_at": "2025-04-02T03:53:31"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2025-03-31T20:01:30.952",
+    "user": [
+      "admin@gmail.com"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "1",
+    "object_repr": "Juan Rodriguez (jua0729.jr@gmail.com)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Groups\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2025-03-31T21:22:37.160",
+    "user": [
+      "admin@gmail.com"
+    ],
+    "content_type": [
+      "users",
+      "user"
+    ],
+    "object_id": "1",
+    "object_repr": "Juan Rodriguez (jua0729.jr@gmail.com)",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"User permissions\"]}}]"
+  }
+}
+]

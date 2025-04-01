@@ -1,0 +1,1165 @@
+{
+	"info": {
+		"_postman_id": "5983b87d-7583-489f-aca7-36917f96eade",
+		"name": "Quick Restaurant Backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25189536"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.environment.set(\"access_token\", response.access);\r",
+									"    pm.environment.set(\"refresh_token\", response.refresh);\r",
+									"    console.log(\"Tokens guardados correctamente\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"Quick123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/auth/login/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.environment.set(\"access_token\", response.access);\r",
+									"    pm.environment.set(\"refresh_token\", response.refresh);\r",
+									"    console.log(\"Tokens guardados correctamente\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refresh\": \"{{refresh_token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/auth/logout/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"auth",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "change password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {\r",
+									"    const response = pm.response.json();\r",
+									"    pm.environment.set(\"access_token\", response.access);\r",
+									"    pm.environment.set(\"refresh_token\", response.refresh);\r",
+									"    console.log(\"Tokens guardados correctamente\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"old_password\": \"Quick123!\",\r\n    \"new_password\": \"\",\r\n    \"confirm_password\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/auth/change-password/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"auth",
+								"change-password",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "restaurants",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/restaurants/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"restaurants",
+								""
+							],
+							"query": [
+								{
+									"key": "page_size",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "open",
+									"disabled": true
+								},
+								{
+									"key": "is_active",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "japanese",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/restaurants/18/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"restaurants",
+								"18",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Dragon Wok\",\r\n    \"address\": \"Calle Dragón 321\",\r\n    \"rating\": 4.7,\r\n    \"status\": \"open\",\r\n    \"category\": \"chinese\",\r\n    \"latitude\": 39.904202,\r\n    \"longitude\": 116.407394\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/restaurants/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"restaurants",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sakura Sushi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/restaurants/1/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"restaurants",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/restaurants/16/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"restaurants",
+								"16",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "asyc bulk",
+					"item": [
+						{
+							"name": "create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (pm.response.code === 202) {\r",
+											"    const response = pm.response.json();\r",
+											"    pm.environment.set(\"task_user_buik_id\", response.task_id);\r",
+											"    console.log(\"Tokens guardados correctamente\");\r",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/C:/Users/Juan Rubio/files/restaurant-ordering-backend/import/users.csv"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host_local}}/users/bulk/",
+									"host": [
+										"{{host_local}}"
+									],
+									"path": [
+										"users",
+										"bulk",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_local}}/users/bulk/status/{{task_user_buik_id}}/",
+									"host": [
+										"{{host_local}}"
+									],
+									"path": [
+										"users",
+										"bulk",
+										"status",
+										"{{task_user_buik_id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/users/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Número de página",
+									"disabled": true
+								},
+								{
+									"key": "page_size",
+									"value": "20",
+									"description": "Tamaño de página",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "test@example.com",
+									"description": "Campo debe ser exacto",
+									"disabled": true
+								},
+								{
+									"key": "first_name",
+									"value": "J",
+									"description": "Coincidencias parciales o completas",
+									"disabled": true
+								},
+								{
+									"key": "last_name",
+									"value": "Doe",
+									"description": "Coincidencias parciales o completas",
+									"disabled": true
+								},
+								{
+									"key": "phone",
+									"value": "123",
+									"description": "Coincidencias parciales o completas",
+									"disabled": true
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"description": "Valor booleano",
+									"disabled": true
+								},
+								{
+									"key": "is_staff",
+									"value": "false",
+									"description": "Valor Booleano",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/users/1/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"users",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"test@example.com\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"password\": \"SecurePassword123!\",\r\n  \"phone\": \"+1234567890\",\r\n  \"default_address\": \"123 Main St\",\r\n  \"restaurant_id\": 1,\r\n  \"is_staff\": false,\r\n  \"is_superuser\": false,\r\n  \"is_active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/users/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@gmail.com\",\r\n    \"first_name\": \"Admin\",\r\n    \"last_name\": \"Admin\",\r\n    \"phone\": \"+573205097741\",\r\n    \"default_address\": \"Calle Rubio #46\",\r\n    \"restaurant_id\": null,\r\n    \"is_staff\": true,\r\n    \"is_superuser\": true,\r\n    \"is_active\": true,\r\n    \"date_joined\": \"2025-03-31 19:39:21\",\r\n    \"last_updated\": \"2025-03-31 21:22:37\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/users/1/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"users",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/users/2/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"users",
+								"2",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "menu",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/menu/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"menu",
+								""
+							],
+							"query": [
+								{
+									"key": "is_active",
+									"value": "false",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "sushi",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "retrieve",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/menu/items/4/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"menu",
+								"items",
+								"4",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Provoleta",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Queso provolone a la parrilla",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "10.5",
+									"type": "text"
+								},
+								{
+									"key": "preparation_time",
+									"value": "10",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "appetizer",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Juan Rubio/Downloads/provoleta.jpeg"
+								},
+								{
+									"key": "restaurant_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host_local}}/menu/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "pizza grande",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Pizza de 8 porciones",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "price",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "preparation_time",
+									"value": "30",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "Comida Rapida",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Juan Rubio/Downloads/pizza.jpg"
+								},
+								{
+									"key": "restaurant_id",
+									"value": "17",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "is_active",
+									"value": "true",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host_local}}/menu/items/1/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"menu",
+								"items",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Pizza Grande",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Pizza de 8 porciones",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "preparation_time",
+									"value": "30",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Comida Rapida",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/Juan Rubio/Downloads/pizza.jpg"
+								},
+								{
+									"key": "restaurant_id",
+									"value": "17",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host_local}}/menu/items/1/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"menu",
+								"items",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/orders/?status=pending",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"orders",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending",
+									"description": "Estado de la orden"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customer_id\": 1,\r\n    \"restaurant_id\": 2,\r\n    \"total_amount\": 30.00,\r\n    \"delivery_address\": \"Avenida Libertador 890\",\r\n    \"special_instructions\": \"Dejar en portería\",\r\n    \"estimated_delivery_time\": \"2025-04-01T19:00:00\",\r\n    \"items\": [\r\n    {\"menu_item_id\": 4, \"quantity\": 1, \"subtotal\": 22.50, \"note\": \"Término medio\"},\r\n    {\"menu_item_id\": 6, \"quantity\": 1, \"subtotal\": 10.50, \"note\": \"Sin aderezo\"}\r\n    ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/orders/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reports",
+			"item": [
+				{
+					"name": "generate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurant_id\": 1,\r\n    \"month\": 3,\r\n    \"year\": 2025\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host_local}}/reports/generate/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"reports",
+								"generate",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_local}}/reports/50/status/",
+							"host": [
+								"{{host_local}}"
+							],
+							"path": [
+								"reports",
+								"50",
+								"status",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
