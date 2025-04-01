@@ -147,10 +147,7 @@ python manage.py test apps.restaurants
 El proyecto está integrado con **Celery**, permitiendo la ejecución de tareas asíncronas.
 
 **Ejemplo:** Creación masiva de usuarios desde un archivo CSV:
-
-```sh
-python manage.py import_users
-```
+> Para mas detalles, importar la coleccion de postman para ejecutar los endpoints
 
 > 📌 **Ubicación del archivo CSV:** `/import/users.csv`
 
