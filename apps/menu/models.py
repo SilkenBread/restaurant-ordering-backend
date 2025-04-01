@@ -25,7 +25,7 @@ class MenuItem(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Created At'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_('Updated At'))
-    image = models.ImageField(upload_to='menu_images/', null=True, blank=True, verbose_name=_('Image'))
+    image = models.ImageField(upload_to='menu/item_images/', null=True, blank=True, verbose_name=_('Image'))
 
     class Meta:
         db_table = 'MENU_ITEMS'

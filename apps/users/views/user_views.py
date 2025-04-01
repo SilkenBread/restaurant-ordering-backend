@@ -16,15 +16,15 @@ service = get_user_service()
 class UserListCreateAPIView(APIView):
     pagination_class = PageNumberPagination
 
-    def get_authenticators(self):
-        if self.request.method == 'POST':
-            return []
-        return super().get_authenticators()
+    # def get_authenticators(self):
+    #     if self.request.method == 'POST':
+    #         return []
+    #     return super().get_authenticators()
     
-    def get_permissions(self):
-        if self.request.method == 'POST':
-            return [AllowAny()]
-        return [permission() for permission in self.permission_classes]
+    # def get_permissions(self):
+    #     if self.request.method == 'POST':
+    #         return [AllowAny()]
+    #     return [permission() for permission in self.permission_classes]
 
     @property
     def paginator(self):
