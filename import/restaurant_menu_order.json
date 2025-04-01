@@ -1,0 +1,162 @@
+{
+    "restaurants": [
+        {
+            "id": 1,
+            "name": "Sakura Sushi",
+            "address": "Avenida del Mar 456",
+            "rating": 4.5,
+            "status": "open",
+            "category": "japanese",
+            "latitude": 35.689487,
+            "longitude": 139.691706
+        },
+        {
+            "id": 2,
+            "name": "La Parrilla Argentina",
+            "address": "Calle Asador 789",
+            "rating": 4.8,
+            "status": "open",
+            "category": "steakhouse",
+            "latitude": -34.603684,
+            "longitude": -58.381559
+        },
+        {
+            "id": 3,
+            "name": "Bella Pasta",
+            "address": "Vía Roma 101",
+            "rating": 4.6,
+            "status": "open",
+            "category": "italian",
+            "latitude": 41.902782,
+            "longitude": 12.496366
+        },
+        {
+            "id": 4,
+            "name": "Taco Fiesta",
+            "address": "Plaza Central 555",
+            "rating": 4.3,
+            "status": "open",
+            "category": "mexican",
+            "latitude": 19.432608,
+            "longitude": -99.133209
+        },
+        {
+            "id": 5,
+            "name": "Dragon Wok",
+            "address": "Calle Dragón 321",
+            "rating": 4.7,
+            "status": "open",
+            "category": "chinese",
+            "latitude": 39.904202,
+            "longitude": 116.407394
+        }
+    ],
+    "menu_items": [
+        {
+            "id": 1,
+            "name": "Sushi Roll",
+            "description": "Roll de salmón y aguacate",
+            "price": 12.50,
+            "preparation_time": 15,
+            "category": "sushi",
+            "image": "sushi_roll.jpg",
+            "restaurant_id": 1
+        },
+        {
+            "id": 2,
+            "name": "Nigiri",
+            "description": "Pieza de arroz con salmón",
+            "price": 6.75,
+            "preparation_time": 10,
+            "category": "sushi",
+            "image": "nigiri.jpg",
+            "restaurant_id": 1
+        },
+        {
+            "id": 3,
+            "name": "Sashimi",
+            "description": "Cortes finos de atún",
+            "price": 14.00,
+            "preparation_time": 12,
+            "category": "sushi",
+            "image": "sashimi.jpg",
+            "restaurant_id": 1
+        },
+        {
+            "id": 4,
+            "name": "Bife de Chorizo",
+            "description": "Corte argentino con papas fritas",
+            "price": 22.50,
+            "preparation_time": 25,
+            "category": "grill",
+            "image": "bife.jpg",
+            "restaurant_id": 2
+        },
+        {
+            "id": 5,
+            "name": "Asado",
+            "description": "Costillar a la parrilla",
+            "price": 27.00,
+            "preparation_time": 30,
+            "category": "grill",
+            "image": "asado.jpg",
+            "restaurant_id": 2
+        },
+        {
+            "id": 6,
+            "name": "Provoleta",
+            "description": "Queso provolone a la parrilla",
+            "price": 10.50,
+            "preparation_time": 10,
+            "category": "appetizer",
+            "image": "provoleta.jpg",
+            "restaurant_id": 2
+        }
+    ],
+    "orders": [
+        {
+            "customer_id": 1,
+            "restaurant_id": 1,
+            "total_amount": 45.75,
+            "delivery_address": "Calle Principal 123, Apt 4B",
+            "special_instructions": "Tocar el timbre dos veces, el perro no muerde",
+            "estimated_delivery_time": "2025-04-01T18:30:00",
+            "items": [
+                {
+                    "menu_item_id": 1,
+                    "quantity": 2,
+                    "subtotal": 25.50,
+                    "note": "Sin cebolla por favor"
+                },
+                {
+                    "menu_item_id": 2,
+                    "quantity": 1,
+                    "subtotal": 12.75,
+                    "note": "Extra picante"
+                }
+            ]
+        },
+        {
+            "customer_id": 2,
+            "restaurant_id": 2,
+            "total_amount": 30.00,
+            "delivery_address": "Avenida Libertador 890",
+            "special_instructions": "Dejar en portería",
+            "estimated_delivery_time": "2025-04-01T19:00:00",
+            "items": [
+                {
+                    "menu_item_id": 4,
+                    "quantity": 1,
+                    "subtotal": 22.50,
+                    "note": "Término medio"
+                },
+                {
+                    "menu_item_id": 6,
+                    "quantity": 1,
+                    "subtotal": 10.50,
+                    "note": "Sin aderezo"
+                }
+            ]
+        }
+    ]
+}

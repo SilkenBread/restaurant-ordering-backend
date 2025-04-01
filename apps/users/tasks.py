@@ -29,14 +29,10 @@ def process_bulk_users(self, file_content, task_id):
     }
 
     try:
-        # Primero validamos el archivo completo antes de procesar
         file = io.StringIO(file_content)
         reader = csv.DictReader(file, delimiter=';')
-        
-        # Convertir a lista para poder contar y reutilizar
         rows = list(reader)
         
-        # Validar cantidad máxima de usuarios
         if len(rows) > 20:
             results['errors'].append({
                 'line': 0,
@@ -54,7 +50,6 @@ def process_bulk_users(self, file_content, task_id):
                 raise ValidationError(
                     _("El archivo CSV no tiene el formato correcto. Falta el campo: {}").format(field))
         
-        # Obtener datos de referencia en una sola consulta
         existing_emails = set(User.objects.values_list("email", flat=True))
         valid_restaurant_ids = set(Restaurant.objects.values_list("id", flat=True))
         
@@ -74,7 +69,7 @@ def process_bulk_users(self, file_content, task_id):
                         'restaurant_id': None,
                     }
                     
-                    # Validaciones básicas
+                    # Validaciones
                     if not user_data['email']:
                         raise ValidationError(_("El campo email no puede estar vacío"))
                     
@@ -92,11 +87,9 @@ def process_bulk_users(self, file_content, task_id):
                         except ValueError:
                             raise ValidationError(_("El restaurant_id debe ser un número entero"))
                     
-                    # Crear instancia de usuario (sin guardar aún)
+                    # instancia de usuario
                     user = User(**user_data)
-                    user.set_password(user_data['password'])  # Hashear la contraseña
-                    
-                    # Validar modelo completo
+                    user.set_password(user_data['password'])
                     user.full_clean()
                     
                     valid_users.append(user)
@@ -120,7 +113,6 @@ def process_bulk_users(self, file_content, task_id):
                     })
                     continue
             
-            # Crear usuarios válidos en una sola operación
             if valid_users:
                 User.objects.bulk_create(valid_users)
                 results['success'] = len(valid_users)

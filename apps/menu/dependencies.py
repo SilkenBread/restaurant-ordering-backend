@@ -1,12 +1,10 @@
-from apps.menu.repositories.menuitem_repository import MenuItemRepository
-from apps.menu.services.meuitem_service import MenuItemService
+from apps.menu.repositories.menu_repository import MenuItemRepository
+from apps.menu.services.menu_service import MenuService
 
-# Singleton instances
+
 repository = MenuItemRepository()
-service = MenuItemService(repository=repository)
+service = MenuService(repository=repository)
 
-def get_menu_item_repository():
-    return repository
-
-def get_menu_item_service():
+def get_menu_service():
+    """Obtener una instancia del servicio de menu"""
     return service

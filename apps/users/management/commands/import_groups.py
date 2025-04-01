@@ -6,9 +6,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 
 class Command(BaseCommand):
-    help = "Carga los grupos y permisos desde un archivo CSV ubicado en 'data/groups_permissions.csv'."
+    help = "Carga los grupos y permisos desde un archivo CSV ubicado en 'import/groups_permissions.csv'."
 
-    CSV_PATH = "data/groups_permissions.csv"
+    CSV_PATH = "import/groups_permissions.csv"
 
     def handle(self, *args, **kwargs):
         if not os.path.exists(self.CSV_PATH):

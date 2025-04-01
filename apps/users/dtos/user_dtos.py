@@ -1,52 +1,38 @@
+# apps/users/dtos/user_dtos.py
 from dataclasses import dataclass
-from datetime import datetime
 from typing import Optional
-from apps.core.exceptions import ValidationException
-from django.utils.translation import gettext_lazy as _
+from datetime import datetime
+
 
 @dataclass
 class UserDTO:
     email: str
     first_name: str
     last_name: str
-    phone: str
+    phone: Optional[str]
+    default_address: Optional[str]
+    restaurant_id: Optional[int]
+    is_staff: bool
+    is_superuser: bool
+    is_active: bool
     id: Optional[int] = None
-    default_address: Optional[str] = None
-    restaurant_id: Optional[int] = None
-    is_active: bool = True
     date_joined: Optional[datetime] = None
     last_updated: Optional[datetime] = None
+
 
 @dataclass
 class UserCreateDTO:
     email: str
     first_name: str
     last_name: str
-    phone: str
     password: str
+    phone: Optional[str] = None
     default_address: Optional[str] = None
     restaurant_id: Optional[int] = None
+    is_staff: bool = False
+    is_superuser: bool = False
     is_active: bool = True
 
-    def __post_init__(self):
-        """"Validación inicial de campos requeridos"""
-        missing_fields = []
-        if self.email is None:
-            missing_fields.append('email')
-        if self.first_name is None:
-            missing_fields.append('first_name')
-        if self.last_name is None:
-            missing_fields.append('last_name')
-        if self.phone is None:
-            missing_fields.append('phone')
-        if self.password is None:
-            missing_fields.append('password')
-
-        if missing_fields:
-            raise ValidationException(
-                detail=_("Campos requeridos faltantes"),
-                errors={field: [_("Este campo es requerido")] for field in missing_fields}
-            )
 
 @dataclass
 class UserUpdateDTO:
@@ -54,7 +40,9 @@ class UserUpdateDTO:
     first_name: Optional[str] = None
     last_name: Optional[str] = None
     phone: Optional[str] = None
-    password: Optional[str] = None
     default_address: Optional[str] = None
     restaurant_id: Optional[int] = None
+    is_staff: Optional[bool] = None
+    is_superuser: Optional[bool] = None
     is_active: Optional[bool] = None
+    password: Optional[str] = None
